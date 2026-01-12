@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { resume } from '../../data/resume';
 import { Mail, MapPin, Send, Loader2 } from 'lucide-react';
 import { Reveal } from '../ui/Reveal';
-import emailjs from '@emailjs/browser';
+
 
 const Contact = () => {
     const formRef = useRef<HTMLFormElement>(null);
@@ -16,26 +16,16 @@ const Contact = () => {
         setIsSubmitting(true);
         setError('');
 
-        // TODO: Replace with your actual EmailJS credentials
-        // Get these from https://dashboard.emailjs.com/
-        const SERVICE_ID = 'YOUR_SERVICE_ID';
-        const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-        const PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
-
-        if (SERVICE_ID === 'YOUR_SERVICE_ID') {
-            // Mock success if no keys provided, but warn user
-            console.warn("EmailJS keys are missing! Showing mock success.");
-            setTimeout(() => {
-                setIsSubmitting(false);
-                setIsSent(true);
-                setFormData({ name: '', email: '', message: '' });
-                setTimeout(() => setIsSent(false), 3000);
-            }, 1500);
-            return;
-        }
-
         try {
-            await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current!, PUBLIC_KEY);
+            await fetch("https://formsubmit.co/ajax/nitheeshselvaraj01@gmail.com", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
             setIsSent(true);
             setFormData({ name: '', email: '', message: '' });
             setTimeout(() => setIsSent(false), 5000);
