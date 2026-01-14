@@ -2,6 +2,7 @@ import { resume } from '../../data/resume';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Reveal } from '../ui/Reveal';
+import AtomicOrbit from '../ui/AtomicOrbit';
 
 const Hero = () => {
     const text = "Full Stack Developer";
@@ -21,18 +22,20 @@ const Hero = () => {
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}
-                    className="relative group w-full md:w-1/2 flex justify-center order-2 md:order-last"
+                    className="relative group w-full md:w-1/2 flex justify-center order-2 md:order-last mt-16 md:mt-0"
                 >
-                    <div className="relative">
-                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-                        <div className="w-64 h-64 md:w-80 md:h-80 relative rounded-full overflow-hidden border-4 border-white/10 shadow-2xl">
-                            <img
-                                src="/profile.png"
-                                alt={resume.personal.name}
-                                className="w-full h-full object-cover"
-                            />
+                    <AtomicOrbit>
+                        <div className="relative">
+                            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                            <div className="w-48 h-48 md:w-64 md:h-64 relative rounded-full overflow-hidden border-4 border-white/10 shadow-2xl z-20">
+                                <img
+                                    src="/profile.png"
+                                    alt={resume.personal.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
                         </div>
-                    </div>
+                    </AtomicOrbit>
                 </motion.div>
 
                 {/* Text Section */}

@@ -49,7 +49,7 @@ const Contact = () => {
                         <div>
                             <h2 className="text-3xl font-bold mb-4">Let's work together</h2>
                             <p className="text-gray-400 mb-8">
-                                I'm currently looking for full-time opportunities. Drop me a line if you want to connect!
+                                I am actively seeking <strong>Internship opportunities</strong> and am open to <strong>Freelance projects</strong>. I am also interested in full-time roles. If you have an exciting opportunity or just want to connect, feel free to reach out!
                             </p>
 
                             <div className="space-y-4 mb-8">
