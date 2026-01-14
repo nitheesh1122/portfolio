@@ -71,7 +71,14 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
 
                 <div className="p-8 md:p-10">
                     <div className="mb-6">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-3">{project.title}</h2>
+                        <div className="flex justify-between items-start mb-2">
+                            <h2 className="text-3xl md:text-4xl font-bold">{project.title}</h2>
+                            <span className={`px-3 py-1 rounded-full text-sm font-medium ${project.status === 'In Progress' ? 'bg-yellow-500/20 text-yellow-500' : 'bg-green-500/20 text-green-500'}`}>
+                                {project.status}
+                            </span>
+                        </div>
+                        <p className="text-gray-400 font-mono mb-4">{project.period}</p>
+
                         <div className="flex flex-wrap gap-2 text-sm text-blue-400 font-medium font-mono">
                             {project.tech.split(',').map((tech) => (
                                 <span key={tech} className="px-3 py-1 bg-blue-500/10 rounded-full border border-blue-500/20">

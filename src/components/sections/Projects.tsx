@@ -29,7 +29,12 @@ const Projects = () => {
                             >
                                 <div className="flex justify-between items-start mb-4">
                                     <h3 className="text-xl font-bold group-hover:text-blue-400 transition-colors">{project.title}</h3>
+                                    <span className={`px-2 py-1 rounded text-xs font-medium ${project.status === 'In Progress' ? 'bg-yellow-500/20 text-yellow-500' : 'bg-green-500/20 text-green-500'}`}>
+                                        {project.status}
+                                    </span>
                                 </div>
+
+                                <p className="text-sm text-gray-500 mb-4 font-mono">{project.period}</p>
 
                                 <p className="text-gray-400 mb-6 line-clamp-3 flex-1">
                                     {project.description}
@@ -51,9 +56,9 @@ const Projects = () => {
                                                 target="_blank"
                                                 rel="noreferrer"
                                                 onClick={(e) => e.stopPropagation()}
-                                                className="text-gray-400 hover:text-white transition-colors"
+                                                className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 text-sm"
                                             >
-                                                <Github size={20} />
+                                                <Github size={18} /> Code
                                             </a>
                                         )}
                                         {project.link && (
@@ -62,9 +67,9 @@ const Projects = () => {
                                                 target="_blank"
                                                 rel="noreferrer"
                                                 onClick={(e) => e.stopPropagation()}
-                                                className="text-gray-400 hover:text-white transition-colors"
+                                                className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 text-sm"
                                             >
-                                                <ExternalLink size={20} />
+                                                <ExternalLink size={18} /> Demo
                                             </a>
                                         )}
                                     </div>

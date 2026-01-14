@@ -85,8 +85,23 @@ const Hero = () => {
                     </Reveal>
 
                     {/* Stats / Highlights */}
-                    <Reveal delay={2}>
-                        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/5 pt-10">
+                    {/* Stats / Highlights - Desktop View */}
+                    <div className="hidden md:block">
+                        <Reveal delay={2}>
+                            <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-white/5 pt-10">
+                                <Stat label="Location" value={resume.personal.location} />
+                                <Stat label="Experience" value="Fresh Grad" />
+                                <Stat label="Projects" value={`${resume.projects.length}+ Completed`} />
+                                <Stat label="Focus" value="Full Stack" />
+                            </div>
+                        </Reveal>
+                    </div>
+                </div>
+
+                {/* Stats / Highlights - Mobile View */}
+                <div className="w-full md:hidden order-3">
+                    <Reveal delay={0.5}>
+                        <div className="mt-10 grid grid-cols-2 gap-8 border-t border-white/5 pt-8">
                             <Stat label="Location" value={resume.personal.location} />
                             <Stat label="Experience" value="Fresh Grad" />
                             <Stat label="Projects" value={`${resume.projects.length}+ Completed`} />

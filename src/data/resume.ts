@@ -29,10 +29,22 @@ export const resume = {
   ],
   projects: [
     {
+      title: "NutriIQ: Diet and Meal Planner",
+      tech: "MERN Stack",
+      description:
+        "Full-stack nutrition and meal planning application with calorie analysis, diet suggestions, macro tracking, and food breakdowns.",
+      link: "https://diet-and-meal-planner.vercel.app",
+      github: "https://github.com/nitheesh1122/Diet_and_meal_planner",
+      status: "Completed",
+      period: "Jul 2025 - Nov 2025"
+    },
+    {
       title: "Smart Restaurant Queue & Table Management",
       tech: "Angular, Node.js, MySQL",
       description: "Full-stack system for real-time table booking, queue tracking, and restaurant management.",
       github: "https://github.com/nitheesh1122/Capstone_project",
+      status: "Completed",
+      period: "Nov 2025 - Jan 2026",
       longDescription: `
 ### Objective
 Develop a full-stack web application that enables restaurants to manage table availability, waiting queues, and reservations in real time.
@@ -54,21 +66,18 @@ Develop a full-stack web application that enables restaurants to manage table av
       tech: "IoT + Mobile App",
       description:
         "End-to-end smart logistics platform for farmers and distributors, providing live sensor insights and automated alerts to prevent spoilage during transit.",
-      github: "https://github.com/nitheesh1122/Niral-Smart-Agri-Tracker"
+      github: "https://github.com/nitheesh1122/Niral-Smart-Agri-Tracker",
+      status: "In Progress",
+      period: "Mar 2025 - Present"
     },
     {
       title: "ISL Translator",
       tech: "React, Flask, AI Model",
       description:
         "Real-time Sign-to-Text and Text-to-Sign translator with interactive learning modules.",
-      github: "https://github.com/nitheesh1122/Indian_Sign_language_Translator"
-    },
-    {
-      title: "NutriIQ: Diet and Meal Planner",
-      tech: "MERN Stack",
-      description:
-        "Full-stack nutrition and meal planning application with calorie analysis, diet suggestions, macro tracking, and food breakdowns.",
-      link: "https://diet-and-meal-planner.vercel.app",
+      github: "https://github.com/nitheesh1122/Indian_Sign_language_Translator",
+      status: "Completed",
+      period: "Apr 2025",
     },
     {
       title: "Inventory Management System",
@@ -76,6 +85,8 @@ Develop a full-stack web application that enables restaurants to manage table av
       description:
         "Full-stack stock tracking system with dashboards; improved accuracy and reduced manual errors by 25%.",
       github: "https://github.com/nitheesh1122/Inventory_Management_System",
+      status: "Completed",
+      period: "Mar 2025 - May 2025",
     },
   ] as Project[],
   skills: {

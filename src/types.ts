@@ -5,4 +5,6 @@ export interface Project {
     longDescription?: string;
     link?: string;
     github?: string;
+    status: string;
+    period: string;
 }
