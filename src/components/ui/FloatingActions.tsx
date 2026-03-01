@@ -1,33 +1,47 @@
-import { Download, ArrowUp } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
+import { motion, useSpring } from 'framer-motion';
+import { useRef, MouseEvent } from 'react';
 
 const FloatingActions = () => {
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    const ref = useRef<HTMLButtonElement>(null);
+    const springConfig = { damping: 15, stiffness: 300, mass: 0.5 };
+    const x = useSpring(0, springConfig);
+    const y = useSpring(0, springConfig);
+
+    const handleMouseMove = (e: MouseEvent) => {
+        if (!ref.current) return;
+        const rect = ref.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const distanceX = e.clientX - centerX;
+        const distanceY = e.clientY - centerY;
+        x.set(distanceX * 0.4);
+        y.set(distanceY * 0.4);
+    };
+
+    const handleMouseLeave = () => {
+        x.set(0);
+        y.set(0);
+    };
+
     return (
         <div className="fixed bottom-8 right-8 flex flex-col gap-4 z-50">
-            {/* Download Resume Mock */}
-            <a
-                href="/resume.pdf"
-                download="Nitheesh_Resume.pdf"
-                className="w-12 h-12 bg-blue-600 hover:bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110 group relative"
-                title="Download Resume"
-            >
-                <Download size={20} />
-                <span className="absolute right-full mr-4 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                    Download Resume
-                </span>
-            </a>
-
-            {/* Scroll Top */}
-            <button
+            {/* Scroll Top with Magnetic Physics */}
+            <motion.button
+                ref={ref}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                style={{ x, y }}
                 onClick={scrollToTop}
-                className="w-12 h-12 bg-white/10 backdrop-blur-md border border-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110"
+                className="w-12 h-12 bg-white/5 border border-white/10 hover:border-brand-accent/50 hover:bg-white/10 text-white rounded-full flex items-center justify-center shadow-lg transition-colors backdrop-blur-md group"
                 title="Scroll to Top"
             >
-                <ArrowUp size={20} />
-            </button>
+                <ArrowUp size={20} className="stroke-[2] group-hover:text-brand-accent transition-colors" />
+            </motion.button>
         </div>
     );
 };

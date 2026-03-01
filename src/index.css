@@ -1,7 +1,68 @@
 @import "tailwindcss";
 
+@theme {
+  --color-brand-bg: #0B0F19;
+  --color-brand-card: #111827;
+  --color-brand-accent: #38BDF8;
+  --color-brand-accent-glow: rgba(56, 189, 248, 0.5);
+  --color-brand-text: #FFFFFF;
+  --color-brand-muted: #94A3B8;
+  --color-brand-border: rgba(255, 255, 255, 0.05);
+
+  --font-sans: 'Inter', sans-serif;
+
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
 @layer base {
   body {
-    @apply antialiased bg-[#050505] text-white;
+    @apply antialiased bg-brand-bg text-brand-text;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    @apply bg-brand-accent/30 text-white;
+  }
+
+  /* Custom Scrollbar styled for Weightless SaaS theme */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-brand-bg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-brand-card);
+    border-radius: 10px;
+    border: 1px solid var(--color-brand-border);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-brand-accent);
+    box-shadow: 0 0 10px var(--color-brand-accent-glow);
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-brand-card/70 backdrop-blur-md border border-brand-border shadow-[0_4px_30px_#0000001a];
+  }
+
+  .glow-text {
+    @apply text-white drop-shadow-[0_0_8px_var(--color-brand-accent-glow)];
   }
 }

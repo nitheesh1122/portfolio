@@ -1,62 +1,80 @@
 import { resume } from '../../data/resume';
-import { Reveal } from '../ui/Reveal';
+import { motion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 
 const CodingProfile = () => {
     return (
-        <section className="py-20 px-6">
-            <div className="max-w-7xl mx-auto">
-                <Reveal width="100%">
-                    <h2 className="text-3xl font-bold mb-12 text-center md:text-left">Coding Activity</h2>
-                </Reveal>
+        <section className="py-24 px-6 bg-brand-bg relative overflow-hidden">
+            <div className="max-w-5xl mx-auto relative z-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8 }}
+                    className="mb-16 text-center md:text-left"
+                >
+                    <h2 className="text-4xl font-bold mb-4 text-white tracking-tight">Code Activity</h2>
+                    <p className="text-brand-muted text-lg">Continuous learning and open-source contributions.</p>
+                </motion.div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* LeetCode Stats */}
-                    <Reveal delay={0.2} width="100%">
-                        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors group">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-yellow-500">LeetCode Stats</h3>
-                                <a
-                                    href={resume.personal.leetcode}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="text-sm text-gray-400 hover:text-white transition-colors"
-                                >
-                                    View Profile →
-                                </a>
-                            </div>
-                            <div className="flex justify-center overflow-hidden">
-                                <img
-                                    src="https://leetcard.jacoblin.cool/nitheeshs06?theme=dark&font=inter&ext=heatmap"
-                                    alt="LeetCode Stats"
-                                    className="w-full max-w-sm lg:max-w-full opacity-90 group-hover:opacity-100 transition-opacity"
-                                />
-                            </div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.6, delay: 0.1 }}
+                        className="bg-brand-card/40 backdrop-blur-md border border-brand-border rounded-3xl p-8 hover:border-brand-accent/30 transition-all duration-300 group"
+                    >
+                        <div className="flex items-center justify-between mb-8">
+                            <h3 className="text-xl font-bold text-white group-hover:text-brand-accent transition-colors">LeetCode Stats</h3>
+                            <a
+                                href={resume.personal.leetcode}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-brand-accent/10 text-brand-muted hover:text-brand-accent transition-all hover:scale-110"
+                                aria-label="View LeetCode Profile"
+                            >
+                                <ArrowUpRight size={18} />
+                            </a>
                         </div>
-                    </Reveal>
+                        <div className="flex justify-center overflow-hidden">
+                            <img
+                                src="https://leetcard.jacoblin.cool/nitheeshs06?theme=dark&font=inter&ext=heatmap"
+                                alt="LeetCode Stats"
+                                className="w-full max-w-sm lg:max-w-full opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                            />
+                        </div>
+                    </motion.div>
 
                     {/* GitHub Stats */}
-                    <Reveal delay={0.4} width="100%">
-                        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-colors group">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-white">GitHub Contributions</h3>
-                                <a
-                                    href={resume.personal.github}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="text-sm text-gray-400 hover:text-white transition-colors"
-                                >
-                                    View Profile →
-                                </a>
-                            </div>
-                            <div className="flex justify-center overflow-hidden pt-4">
-                                <img
-                                    src="http://ghchart.rshah.org/409ba5/nitheesh1122"
-                                    alt="GitHub Contributions"
-                                    className="w-full opacity-90 group-hover:opacity-100 transition-opacity invert hue-rotate-180"
-                                />
-                            </div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="bg-brand-card/40 backdrop-blur-md border border-brand-border rounded-3xl p-8 hover:border-brand-accent/30 transition-all duration-300 group"
+                    >
+                        <div className="flex items-center justify-between mb-8">
+                            <h3 className="text-xl font-bold text-white group-hover:text-brand-accent transition-colors">GitHub Contributions</h3>
+                            <a
+                                href={resume.personal.github}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-brand-accent/10 text-brand-muted hover:text-brand-accent transition-all hover:scale-110"
+                                aria-label="View GitHub Profile"
+                            >
+                                <ArrowUpRight size={18} />
+                            </a>
                         </div>
-                    </Reveal>
+                        <div className="flex justify-center overflow-hidden pt-4">
+                            <img
+                                src="http://ghchart.rshah.org/38BDF8/nitheesh1122"
+                                alt="GitHub Contributions"
+                                className="w-full opacity-80 group-hover:opacity-100 transition-opacity duration-300 invert hue-rotate-180"
+                            />
+                        </div>
+                    </motion.div>
                 </div>
             </div>
         </section>

@@ -30,9 +30,10 @@ const ParticlesBackground = () => {
             constructor() {
                 this.x = Math.random() * canvas!.width;
                 this.y = Math.random() * canvas!.height;
-                this.directionX = (Math.random() - 0.5) * 0.5; // Slow movement
-                this.directionY = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 2 + 1;
+                // Even slower, more elegant movement for Weightless SaaS feel
+                this.directionX = (Math.random() - 0.5) * 0.2;
+                this.directionY = (Math.random() - 0.5) * 0.2;
+                this.size = Math.random() * 1.5 + 0.5;
             }
 
             update() {
@@ -48,15 +49,15 @@ const ParticlesBackground = () => {
                 if (!ctx) return;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(100, 149, 237, 0.4)'; // Cornflower Blue with opacity
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.3)'; // Primary Accent Cyan
                 ctx.fill();
             }
         }
 
         const initParticles = () => {
             particles = [];
-            // Responsive number of particles
-            const numberOfParticles = (canvas.width * canvas.height) / 15000;
+            // Less particles for minimalism
+            const numberOfParticles = (canvas.width * canvas.height) / 20000;
             for (let i = 0; i < numberOfParticles; i++) {
                 particles.push(new Particle());
             }
@@ -78,7 +79,7 @@ const ParticlesBackground = () => {
 
                     if (distance < 100) {
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(100, 149, 237, ${0.1 - distance / 1000})`;
+                        ctx.strokeStyle = `rgba(56, 189, 248, ${0.05 - distance / 2000})`; // Very subtle lines
                         ctx.lineWidth = 1;
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -93,7 +94,7 @@ const ParticlesBackground = () => {
 
                 if (distMs < 150) {
                     ctx.beginPath();
-                    ctx.strokeStyle = `rgba(100, 149, 237, ${0.3 - distMs / 500})`;
+                    ctx.strokeStyle = `rgba(56, 189, 248, ${0.15 - distMs / 1000})`;
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(mouse.x, mouse.y);
                     ctx.stroke();
@@ -103,8 +104,8 @@ const ParticlesBackground = () => {
         };
 
         const handleMouseMove = (e: MouseEvent) => {
-            mouse.x = e.x;
-            mouse.y = e.y;
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
         };
 
         window.addEventListener('resize', resize);
@@ -123,7 +124,7 @@ const ParticlesBackground = () => {
     return (
         <canvas
             ref={canvasRef}
-            className="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-40"
+            className="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-30"
         />
     );
 };

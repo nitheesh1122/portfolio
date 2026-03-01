@@ -1,8 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { resume } from '../../data/resume';
 import { Mail, MapPin, Send, Loader2 } from 'lucide-react';
-import { Reveal } from '../ui/Reveal';
-
+import { motion } from 'framer-motion';
 
 const Contact = () => {
     const formRef = useRef<HTMLFormElement>(null);
@@ -38,86 +37,95 @@ const Contact = () => {
     };
 
     return (
-        <section id="contact" className="py-20 px-6">
-            <Reveal width="100%">
-                <div className="max-w-5xl mx-auto bg-gradient-to-br from-gray-900 to-black border border-white/10 rounded-3xl p-8 md:p-12 relative overflow-hidden">
-                    {/* Background Glow */}
-                    <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-blue-600/20 rounded-full blur-[100px] pointer-events-none"></div>
+        <section id="contact" className="py-32 px-6 bg-brand-bg relative overflow-hidden">
+            <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8 }}
+                className="max-w-5xl mx-auto border border-brand-border bg-brand-card/30 backdrop-blur-lg rounded-3xl p-8 md:p-16 relative overflow-hidden"
+            >
+                {/* Background Glow */}
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-accent/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-                    <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12">
-                        {/* Info Side */}
-                        <div>
-                            <h2 className="text-3xl font-bold mb-4">Let's work together</h2>
-                            <p className="text-gray-400 mb-8">
-                                I am actively seeking <strong>Internship opportunities</strong> and am open to <strong>Freelance projects</strong>. I am also interested in full-time roles. If you have an exciting opportunity or just want to connect, feel free to reach out!
-                            </p>
+                <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-16">
+                    {/* Info Side */}
+                    <div className="flex flex-col justify-center">
+                        <h2 className="text-4xl font-bold mb-6 text-white tracking-tight">Let's build together.</h2>
+                        <p className="text-brand-muted mb-10 text-lg leading-relaxed">
+                            I am actively seeking <strong className="text-white">Internship opportunities</strong> and am open to <strong className="text-white">Freelance projects</strong>. If you have an exciting opportunity or just want to connect, feel free to reach out.
+                        </p>
 
-                            <div className="space-y-4 mb-8">
-                                <ContactItem icon={<Mail size={20} />} text={resume.personal.email} href={`mailto:${resume.personal.email}`} />
-                                <div className="flex items-center gap-3 text-gray-300">
-                                    <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-blue-400"><MapPin size={20} /></div>
-                                    <span>{resume.personal.location}</span>
-                                </div>
+                        <div className="space-y-6">
+                            <ContactItem icon={<Mail size={22} />} text={resume.personal.email} href={`mailto:${resume.personal.email}`} />
+                            <div className="flex items-center gap-4 text-brand-muted">
+                                <div className="w-12 h-12 bg-white/5 border border-white/5 rounded-full flex items-center justify-center text-brand-accent"><MapPin size={22} /></div>
+                                <span className="text-lg">{resume.personal.location}</span>
                             </div>
                         </div>
-
-                        {/* Form Side */}
-                        <form ref={formRef} onSubmit={handleSubmit} className="bg-white/5 p-6 rounded-2xl border border-white/5 space-y-4">
-                            <div>
-                                <label className="block text-xs font-medium text-gray-400 mb-1 uppercase">Name</label>
-                                <input
-                                    type="text"
-                                    required
-                                    value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
-                                    placeholder="John Doe"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-medium text-gray-400 mb-1 uppercase">Email</label>
-                                <input
-                                    type="email"
-                                    required
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
-                                    placeholder="john@example.com"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-medium text-gray-400 mb-1 uppercase">Message</label>
-                                <textarea
-                                    required
-                                    rows={4}
-                                    value={formData.message}
-                                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                    className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors resize-none"
-                                    placeholder="Your message..."
-                                ></textarea>
-                            </div>
-
-                            <button
-                                type="submit"
-                                disabled={isSubmitting}
-                                className={`w-full py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all ${isSent ? 'bg-green-500 text-white' : 'bg-blue-600 hover:bg-blue-500 text-white'}`}
-                            >
-                                {isSubmitting ? <Loader2 className="animate-spin" /> : isSent ? "Message Sent!" : <>Send Message <Send size={18} /></>}
-                            </button>
-                        </form>
                     </div>
+
+                    {/* Form Side */}
+                    <form ref={formRef} onSubmit={handleSubmit} className="bg-brand-bg/60 p-8 rounded-2xl border border-brand-border space-y-6">
+                        <div>
+                            <label className="block text-sm font-medium text-brand-muted mb-2">Name</label>
+                            <input
+                                type="text"
+                                required
+                                value={formData.name}
+                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                className="w-full bg-black/50 border border-brand-border rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all"
+                                placeholder="John Doe"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-brand-muted mb-2">Email</label>
+                            <input
+                                type="email"
+                                required
+                                value={formData.email}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                className="w-full bg-black/50 border border-brand-border rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all"
+                                placeholder="john@example.com"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-brand-muted mb-2">Message</label>
+                            <textarea
+                                required
+                                rows={4}
+                                value={formData.message}
+                                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                                className="w-full bg-black/50 border border-brand-border rounded-xl px-5 py-3.5 text-white focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all resize-none"
+                                placeholder="How can I help you?"
+                            ></textarea>
+                        </div>
+
+                        {error && <p className="text-red-400 text-sm font-medium">{error}</p>}
+
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className={`w-full py-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all duration-300 ${isSent
+                                    ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                                    : 'bg-brand-accent text-[#050550] hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(56,189,248,0.4)]'
+                                }`}
+                        >
+                            {isSubmitting ? <Loader2 className="animate-spin" /> : isSent ? "Message Sent!" : <>Send Message <Send size={18} /></>}
+                        </button>
+                    </form>
                 </div>
-            </Reveal>
+            </motion.div>
         </section>
     );
 };
 
-const ContactItem = ({ icon, text, href }: any) => (
-    <a href={href} className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
-        <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-blue-400">
+const ContactItem = ({ icon, text, href }: { icon: React.ReactNode, text: string, href: string }) => (
+    <a href={href} className="flex items-center gap-4 text-brand-muted hover:text-white transition-colors group">
+        <div className="w-12 h-12 bg-white/5 border border-white/5 rounded-full flex items-center justify-center text-brand-accent group-hover:bg-brand-accent/10 transition-colors">
             {icon}
         </div>
-        <span className="break-all">{text}</span>
+        <span className="break-all text-lg">{text}</span>
     </a>
 )
 
