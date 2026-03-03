@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Code, Database, Server, Smartphone, Globe, Cpu, Cloud, Terminal, Wifi, Layers, Monitor, Layout } from "lucide-react";
+import { Code, Database, Server, Smartphone, Globe, Cpu, Cloud, Terminal, Wifi, Layers, Monitor } from "lucide-react";
 
 interface AtomicOrbitProps {
     children: React.ReactNode;

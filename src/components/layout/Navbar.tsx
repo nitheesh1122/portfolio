@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Github, Linkedin, Mail, FileText } from 'lucide-react';
-import { resume } from '../../data/resume';
+import { Menu, X, Github, Linkedin, Mail } from 'lucide-react';
+import { personalInfo } from '../../data/portfolio';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -17,17 +17,18 @@ const Navbar = () => {
     const navLinks = [
         { name: 'About', href: '#about' },
         { name: 'Projects', href: '#projects' },
+        { name: 'Awards', href: '#awards' },
         { name: 'Skills', href: '#skills' },
         { name: 'Contact', href: '#contact' },
     ];
 
     return (
-        <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-[#0B0F19]/70 backdrop-blur-lg shadow-lg border-b border-white/5' : 'bg-transparent'}`}>
-            <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0a0a0a]/80 backdrop-blur-md shadow-lg border-b border-white/5 py-4' : 'bg-transparent py-6'}`}>
+            <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
                 {/* Logo */}
-                <a href="#" className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                    {resume.personal.name.split(' ')[0]}
-                    <span className="w-2 h-2 rounded-full bg-brand-accent animate-[pulse_2s_ease-in-out_infinite] shadow-[0_0_8px_rgba(56,189,248,0.8)]"></span>
+                <a href="#" className="text-xl font-bold tracking-tight text-white flex items-center gap-1">
+                    {personalInfo.name}
+                    <span className="text-brand-accent">.</span>
                 </a>
 
                 {/* Desktop Nav */}
@@ -36,24 +37,27 @@ const Navbar = () => {
                         <a
                             key={link.name}
                             href={link.href}
-                            className="text-sm font-medium text-gray-300 hover:text-white hover:text-brand-accent transition-colors"
+                            className="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group"
                         >
                             {link.name}
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-brand-accent to-brand-accent-secondary transition-all group-hover:w-full"></span>
                         </a>
                     ))}
 
-                    <div className="flex items-center gap-4 pl-4 border-l border-white/10">
-                        <a href={resume.personal.github} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-brand-accent transition-colors">
-                            <Github size={20} />
+                    <div className="flex items-center gap-5 pl-8 border-l border-white/10">
+                        <a href={personalInfo.socials.github} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white transition-colors">
+                            <Github size={18} />
+                        </a>
+                        <a href={personalInfo.socials.linkedin} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white transition-colors">
+                            <Linkedin size={18} />
                         </a>
                         <a
                             href="/resume.pdf"
                             target="_blank"
-                            rel="noreferrer"
-                            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-brand-accent border border-brand-accent/30 rounded-full hover:bg-brand-accent/10 transition-all"
+                            rel="noopener noreferrer"
+                            className="ml-2 px-5 py-2 rounded-full font-bold text-sm bg-gradient-to-r from-brand-accent to-brand-accent-secondary text-black hover:scale-105 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)]"
                         >
-                            <FileText size={16} />
-                            My Resume
+                            Resume
                         </a>
                     </div>
                 </div>
@@ -66,31 +70,31 @@ const Navbar = () => {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden absolute top-16 left-0 w-full bg-[#0B0F19]/95 backdrop-blur-xl border-b border-white/10 p-6 flex flex-col gap-4 shadow-2xl">
+                <div className="md:hidden absolute top-[100%] left-0 w-full bg-[#0f0f0f] border-b border-white/5 p-6 flex flex-col gap-4 shadow-xl">
                     {navLinks.map((link) => (
                         <a
                             key={link.name}
                             href={link.href}
                             onClick={() => setIsOpen(false)}
-                            className="text-lg font-medium text-gray-200 hover:text-brand-accent py-2 border-b border-white/5 transition-colors"
+                            className="text-lg font-medium text-slate-200 hover:text-brand-accent py-2 border-b border-white/5 transition-colors"
                         >
                             {link.name}
                         </a>
                     ))}
-                    <a
-                        href="/resume.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={() => setIsOpen(false)}
-                        className="flex items-center gap-2 text-lg font-medium text-brand-accent py-2 border-b border-white/5"
-                    >
-                        <FileText size={20} />
-                        My Resume
-                    </a>
+                    <div className="mt-2">
+                        <a
+                            href="/resume.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full flex justify-center py-3 rounded-xl font-bold text-base bg-gradient-to-r from-brand-accent to-brand-accent-secondary text-black"
+                        >
+                            View Resume
+                        </a>
+                    </div>
                     <div className="flex gap-6 mt-4 justify-center">
-                        <a href={resume.personal.github} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-brand-accent transition-colors"><Github size={24} /></a>
-                        <a href={resume.personal.linkedin} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-brand-accent transition-colors"><Linkedin size={24} /></a>
-                        <a href={`mailto:${resume.personal.email}`} className="text-gray-400 hover:text-brand-accent transition-colors"><Mail size={24} /></a>
+                        <a href={personalInfo.socials.github} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white transition-colors"><Github size={24} /></a>
+                        <a href={personalInfo.socials.linkedin} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white transition-colors"><Linkedin size={24} /></a>
+                        <a href={`mailto:${personalInfo.email}`} className="text-slate-400 hover:text-white transition-colors"><Mail size={24} /></a>
                     </div>
                 </div>
             )}
