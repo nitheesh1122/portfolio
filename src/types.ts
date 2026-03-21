@@ -6,6 +6,14 @@ export interface Project {
     github: string;
     live?: string;
     image?: string;
+    status?: 'Completed' | 'In Progress';
+    period?: string;
+    role?: string;
+    problem?: string;
+    architecture?: string[];
+    impact?: string[];
+    longDescription?: string;
+    demoGif?: string;
 }
 
 export interface Education {

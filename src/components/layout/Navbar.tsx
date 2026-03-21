@@ -15,9 +15,12 @@ const Navbar = () => {
     }, []);
 
     const navLinks = [
+        { name: 'Education', href: '#education' },
         { name: 'About', href: '#about' },
         { name: 'Projects', href: '#projects' },
         { name: 'Awards', href: '#awards' },
+        { name: 'Certifications', href: '#certifications' },
+        { name: 'Activity', href: '#activity' },
         { name: 'Skills', href: '#skills' },
         { name: 'Contact', href: '#contact' },
     ];
@@ -32,12 +35,12 @@ const Navbar = () => {
                 </a>
 
                 {/* Desktop Nav */}
-                <div className="hidden md:flex items-center gap-8">
+                <div className="hidden md:flex items-center gap-5">
                     {navLinks.map((link) => (
                         <a
                             key={link.name}
                             href={link.href}
-                            className="text-sm font-medium text-slate-300 hover:text-white transition-colors relative group"
+                            className="text-xs font-medium text-slate-300 hover:text-white transition-colors relative group"
                         >
                             {link.name}
                             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-brand-accent to-brand-accent-secondary transition-all group-hover:w-full"></span>

@@ -30,6 +30,17 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
         };
     }, []);
 
+    useEffect(() => {
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                onClose();
+            }
+        };
+
+        document.addEventListener("keydown", handleEscape);
+        return () => document.removeEventListener("keydown", handleEscape);
+    }, [onClose]);
+
     // Simple Markdown-like renderer (handling newlines and basic headers)
     const renderDescription = (text: string) => {
         return text.split('\n').map((line, index) => {
@@ -59,7 +70,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="bg-[#0a0a0a] border border-white/10 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative shadow-2xl"
+                className="bg-[#0a0a0a] border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative shadow-2xl"
             >
                 {/* Close Button */}
                 <button
@@ -73,20 +84,63 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
                     <div className="mb-6">
                         <div className="flex justify-between items-start mb-2">
                             <h2 className="text-3xl md:text-4xl font-bold">{project.title}</h2>
-                            <span className={`px-3 py-1 rounded-full text-sm font-medium ${project.status === 'In Progress' ? 'bg-yellow-500/20 text-yellow-500' : 'bg-green-500/20 text-green-500'}`}>
-                                {project.status}
-                            </span>
+                            {project.status && (
+                                <span className={`px-3 py-1 rounded-full text-sm font-medium ${project.status === 'In Progress' ? 'bg-yellow-500/20 text-yellow-500' : 'bg-green-500/20 text-green-500'}`}>
+                                    {project.status}
+                                </span>
+                            )}
                         </div>
-                        <p className="text-gray-400 font-mono mb-4">{project.period}</p>
+                        {project.period && <p className="text-gray-400 font-mono mb-2">{project.period}</p>}
+                        {project.role && <p className="text-gray-300 mb-4">Role: <span className="text-white font-semibold">{project.role}</span></p>}
 
                         <div className="flex flex-wrap gap-2 text-sm text-blue-400 font-medium font-mono">
-                            {project.tech.split(',').map((tech) => (
+                            {project.tech.map((tech) => (
                                 <span key={tech} className="px-3 py-1 bg-blue-500/10 rounded-full border border-blue-500/20">
-                                    {tech.trim()}
+                                    {tech}
                                 </span>
                             ))}
                         </div>
                     </div>
+
+                    {project.demoGif && (
+                        <div className="mb-8">
+                            <img
+                                src={project.demoGif}
+                                alt={`${project.title} demo`}
+                                className="w-full rounded-xl border border-white/10 bg-black/20"
+                                loading="lazy"
+                            />
+                        </div>
+                    )}
+
+                    {project.problem && (
+                        <div className="mb-5">
+                            <h3 className="text-lg font-semibold text-white mb-2">Problem</h3>
+                            <p className="text-gray-300 leading-relaxed">{project.problem}</p>
+                        </div>
+                    )}
+
+                    {project.architecture && project.architecture.length > 0 && (
+                        <div className="mb-5">
+                            <h3 className="text-lg font-semibold text-white mb-2">Architecture</h3>
+                            <ul className="space-y-1 text-gray-300 list-disc list-inside">
+                                {project.architecture.map((item) => (
+                                    <li key={item}>{item}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    {project.impact && project.impact.length > 0 && (
+                        <div className="mb-5">
+                            <h3 className="text-lg font-semibold text-white mb-2">Impact</h3>
+                            <ul className="space-y-1 text-gray-300 list-disc list-inside">
+                                {project.impact.map((item) => (
+                                    <li key={item}>{item}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
 
                     <div className="prose prose-invert max-w-none mb-8">
                         {/* Usage of long description if available, else standard description */}
@@ -110,9 +164,9 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
                                 <Github size={20} /> View Source
                             </a>
                         )}
-                        {project.link && (
+                        {project.live && (
                             <a
-                                href={project.link}
+                                href={project.live}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium transition-colors"

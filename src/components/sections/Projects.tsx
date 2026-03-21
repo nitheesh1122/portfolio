@@ -1,8 +1,13 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { projects } from '../../data/portfolio';
 import { Github, ExternalLink } from 'lucide-react';
+import ProjectModal from '../ui/ProjectModal';
+import type { Project } from '../../types';
 
 const Projects = () => {
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
     return (
         <section id="projects" className="py-24 relative z-10 w-full overflow-hidden">
             <div className="max-w-6xl mx-auto px-6">
@@ -31,8 +36,9 @@ const Projects = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-100px" }}
                                 transition={{ duration: 0.5, delay: idx * 0.1 }}
+                                onClick={() => setSelectedProject(project)}
                                 className={`group bg-[#141414] rounded-3xl p-8 border border-white/5 hover:border-brand-accent/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between items-start 
-                                ${isPrimary ? 'bg-gradient-to-br from-[#141414] to-[#0a1a15]' : ''}`}
+                                ${isPrimary ? 'bg-gradient-to-br from-[#141414] to-[#0a1a15]' : ''} cursor-pointer`}
                             >
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-brand-accent/5 rounded-full blur-3xl group-hover:bg-brand-accent/10 transition-colors pointer-events-none" />
 
@@ -58,7 +64,7 @@ const Projects = () => {
                                         ))}
                                     </div>
 
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-4" onClick={(event) => event.stopPropagation()}>
                                         {project.github && (
                                             <a
                                                 href={project.github}
@@ -81,6 +87,14 @@ const Projects = () => {
                                                 Live Demo
                                             </a>
                                         )}
+
+                                        <button
+                                            type="button"
+                                            onClick={() => setSelectedProject(project)}
+                                            className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                                        >
+                                            Case Study
+                                        </button>
                                     </div>
                                 </div>
                             </motion.div>
@@ -88,6 +102,15 @@ const Projects = () => {
                     })}
 
                 </div>
+
+                <AnimatePresence>
+                    {selectedProject && (
+                        <ProjectModal
+                            project={selectedProject}
+                            onClose={() => setSelectedProject(null)}
+                        />
+                    )}
+                </AnimatePresence>
             </div>
         </section>
     );

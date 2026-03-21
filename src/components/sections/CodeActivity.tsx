@@ -1,6 +1,48 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { personalInfo } from '../../data/portfolio';
 import { GitHubCalendar } from 'react-github-calendar';
+
+interface StatImageProps {
+    src: string;
+    alt: string;
+    fallbackSrc: string;
+    className?: string;
+}
+
+const StatImage = ({ src, alt, fallbackSrc, className }: StatImageProps) => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [hasError, setHasError] = useState(false);
+
+    return (
+        <div className="w-full relative">
+            {isLoading && (
+                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-white/5 via-white/10 to-white/5 animate-pulse" />
+            )}
+
+            <img
+                src={hasError ? fallbackSrc : src}
+                alt={alt}
+                className={className}
+                loading="lazy"
+                onLoad={() => setIsLoading(false)}
+                onError={() => {
+                    if (!hasError) {
+                        setHasError(true);
+                        return;
+                    }
+                    setIsLoading(false);
+                }}
+            />
+
+            {hasError && (
+                <p className="text-xs text-slate-500 mt-2 text-center">
+                    Live widget unavailable, showing cached snapshot.
+                </p>
+            )}
+        </div>
+    );
+};
 
 const CodeActivity = () => {
     return (
@@ -29,13 +71,12 @@ const CodeActivity = () => {
                         className="bg-[#141414] p-8 rounded-2xl border border-white/5 hover:border-brand-accent/30 transition-all flex flex-col items-center justify-center text-center"
                     >
                         <h3 className="text-xl font-bold text-white mb-6">LeetCode Profile</h3>
-                        {/* We use an external API that generates a Leetcode stats image */}
                         <div className="w-full flex justify-center bg-[#0a0a0a] rounded-xl p-4 border border-white/5">
-                            <img
+                            <StatImage
                                 src={`https://leetcard.jacoblin.cool/${personalInfo.leetcodeUsername}?theme=dark&font=Inter&ext=activity`}
                                 alt="LeetCode Stats"
+                                fallbackSrc="/stats/leetcode-card-fallback.svg"
                                 className="w-full max-w-[400px] h-auto rounded-lg"
-                                loading="lazy"
                             />
                         </div>
                         <a
@@ -84,24 +125,21 @@ const CodeActivity = () => {
                             <div className="w-full grid md:grid-cols-2 gap-4">
                                 {/* Streak Card */}
                                 <div className="bg-[#0a0a0a] rounded-xl border border-white/5 flex justify-center overflow-hidden">
-                                    <img
+                                    <StatImage
                                         src={`https://github-readme-streak-stats.herokuapp.com/?user=${personalInfo.githubUsername}&theme=transparent&hide_border=true&title_color=10b981&text_color=ffffff&icon_color=06b6d4&bg_color=0a0a0a`}
                                         alt="GitHub Streak"
+                                        fallbackSrc="/stats/github-streak-fallback.svg"
                                         className="h-auto w-full object-contain"
-                                        loading="lazy"
                                     />
                                 </div>
 
                                 {/* Top Languages Card */}
                                 <div className="bg-[#0a0a0a] rounded-xl border border-white/5 flex justify-center overflow-hidden">
-                                    <img
+                                    <StatImage
                                         src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${personalInfo.githubUsername}&layout=compact&theme=transparent&hide_border=true&title_color=10b981&text_color=ffffff&bg_color=0a0a0a`}
                                         alt="Top Languages"
+                                        fallbackSrc="/stats/github-langs-fallback.svg"
                                         className="h-auto w-full object-contain"
-                                        loading="lazy"
-                                        onError={(e) => {
-                                            (e.target as HTMLImageElement).src = `https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=${personalInfo.githubUsername}&layout=compact&theme=transparent&hide_border=true&title_color=10b981&text_color=ffffff&bg_color=0a0a0a`;
-                                        }}
                                     />
                                 </div>
                             </div>
