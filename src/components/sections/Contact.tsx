@@ -2,7 +2,7 @@ import { FormEvent, useMemo, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
 import { personalInfo } from '../../data/portfolio';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, MapPin } from 'lucide-react';
 
 const Contact = () => {
     const [name, setName] = useState('');
@@ -196,13 +196,6 @@ const Contact = () => {
                             >
                                 <Mail size={18} />
                                 {personalInfo.email}
-                            </a>
-                            <a
-                                href={`tel:${personalInfo.phone.replace(/\s+/g, '')}`}
-                                className="w-full flex items-center gap-3 px-5 py-4 bg-[#0a0a0a] text-white font-medium rounded-xl border border-white/10 hover:border-brand-accent/60 transition-colors"
-                            >
-                                <Phone size={18} />
-                                {personalInfo.phone}
                             </a>
                             <div className="w-full flex items-center gap-3 px-5 py-4 bg-[#0a0a0a] text-slate-300 font-medium rounded-xl border border-white/10">
                                 <MapPin size={18} />
