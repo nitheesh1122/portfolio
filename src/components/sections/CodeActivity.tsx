@@ -45,20 +45,27 @@ const StatImage = ({ src, alt, fallbackSrc, className }: StatImageProps) => {
 };
 
 const CodeActivity = () => {
+    const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
     const [isLightTheme, setIsLightTheme] = useState(() =>
         typeof window !== 'undefined' && document.documentElement.classList.contains('light')
     );
 
     useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
         const root = document.documentElement;
         const syncTheme = () => setIsLightTheme(root.classList.contains('light'));
 
         syncTheme();
+        handleResize();
 
         const observer = new MutationObserver(syncTheme);
         observer.observe(root, { attributes: true, attributeFilter: ['class'] });
+        window.addEventListener('resize', handleResize);
 
-        return () => observer.disconnect();
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
 
     const githubCalendarTheme = isLightTheme
@@ -90,21 +97,21 @@ const CodeActivity = () => {
     const leetCodeTheme = isLightTheme ? 'light' : 'dark';
 
     return (
-        <section id="activity" className="py-24 relative z-10 w-full overflow-hidden">
-            <div className="max-w-6xl mx-auto px-6">
+        <section id="activity" className="py-20 md:py-24 relative z-10 w-full overflow-hidden">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.6 }}
-                    className="mb-16 text-center"
+                    className="mb-10 md:mb-16 text-center"
                 >
-                    <h2 className="text-4xl font-semibold mb-4 text-brand">Code Activity</h2>
-                    <p className="text-muted max-w-2xl mx-auto">Consistent contributions and problem-solving metrics.</p>
+                    <h2 className="text-3xl sm:text-4xl font-semibold mb-4 text-brand">Code Activity</h2>
+                    <p className="text-muted max-w-2xl mx-auto text-sm sm:text-base md:text-lg">Consistent contributions and problem-solving metrics.</p>
                 </motion.div>
 
-                <div className="grid lg:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
 
                     {/* LeetCode Stats */}
                     <motion.div
@@ -112,10 +119,10 @@ const CodeActivity = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.5 }}
-                        className="bg-card p-8 rounded-2xl border border-brand hover:border-brand-accent/30 transition-all flex flex-col items-center justify-center text-center"
+                        className="bg-card p-5 sm:p-6 md:p-8 rounded-2xl border border-brand hover:border-brand-accent/30 transition-all flex flex-col items-center justify-center text-center"
                     >
-                            <h3 className="text-xl font-bold text-brand mb-6">LeetCode Profile</h3>
-                            <div className="w-full flex justify-center bg-card rounded-xl p-4 border border-brand">
+                            <h3 className="text-lg sm:text-xl font-bold text-brand mb-5 sm:mb-6">LeetCode Profile</h3>
+                            <div className="w-full flex justify-center bg-card rounded-xl p-3 sm:p-4 border border-brand overflow-hidden">
                             <StatImage
                                 src={`https://leetcard.jacoblin.cool/${personalInfo.leetcodeUsername}?theme=${leetCodeTheme}&font=Inter&ext=activity`}
                                 alt="LeetCode Stats"
@@ -139,10 +146,10 @@ const CodeActivity = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="bg-card p-8 rounded-2xl border border-brand hover:border-brand-accent/30 transition-all flex flex-col items-center justify-center text-center w-full"
+                        className="bg-card p-5 sm:p-6 md:p-8 rounded-2xl border border-brand hover:border-brand-accent/30 transition-all flex flex-col items-center justify-center text-center w-full"
                     >
-                        <h3 className="text-xl font-bold text-brand mb-6 flex items-center justify-center gap-2">
-                            <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-brand">
+                        <h3 className="text-lg sm:text-xl font-bold text-brand mb-5 sm:mb-6 flex items-center justify-center gap-2">
+                            <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 sm:w-6 sm:h-6 text-brand">
                                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.525-3.795-.45-3.93-1.02-.075-.195-.405-1.02-.69-1.29-.24-.225-.585-.525-.015-.54.54-.015.93.51 1.065.72 1.62 1.05 2.76.75 3.435.57.06-.72.39-1.23.75-1.515-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.405.345.75 1.035.75 2.085 0 1.5-.015 2.715-.015 3.09 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                             </svg>
                             GitHub Stats
@@ -150,21 +157,21 @@ const CodeActivity = () => {
 
                         <div className="w-full flex flex-col gap-6 items-center">
                             {/* Full Width Contribution Calendar */}
-                            <div className="w-full bg-card rounded-xl p-4 border border-brand flex items-center justify-center overflow-x-auto overflow-y-hidden">
+                            <div className="w-full bg-card rounded-xl p-3 sm:p-4 border border-brand flex items-center justify-start md:justify-center overflow-x-auto overflow-y-hidden">
                                 <GitHubCalendar
                                     username={personalInfo.githubUsername}
                                     colorScheme={isLightTheme ? 'light' : 'dark'}
                                     theme={githubCalendarTheme}
-                                    fontSize={12}
-                                    blockSize={12}
-                                    blockMargin={4}
+                                    fontSize={isMobile ? 10 : 12}
+                                    blockSize={isMobile ? 10 : 12}
+                                    blockMargin={isMobile ? 3 : 4}
                                     hideColorLegend
                                     hideTotalCount
                                 />
                             </div>
 
                             {/* Stat Cards Row */}
-                            <div className="w-full grid md:grid-cols-2 gap-4">
+                            <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {/* Streak Card */}
                                 <div className="bg-card rounded-xl border border-brand flex justify-center overflow-hidden">
                                     <StatImage
