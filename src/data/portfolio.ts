@@ -43,6 +43,7 @@ export const projects: Project[] = [
         status: "Completed",
         period: "2025",
         role: "Full-Stack Developer",
+        tags: ["MERN", "Full-Stack", "IoT", "Real-time"],
         problem: "Perishable goods logistics suffer from poor visibility and delayed intervention, causing spoilage and losses.",
         architecture: [
             "Role-based MERN dashboards for vendor, driver, and customer workflows",
@@ -66,6 +67,7 @@ export const projects: Project[] = [
         status: "Completed",
         period: "2025",
         role: "Full-Stack Developer",
+        tags: ["MERN", "Full-Stack", "React"],
         problem: "Users struggle to track meals consistently and map them to nutritional targets in one simple workflow.",
         architecture: [
             "JWT-based authentication and user-specific nutrition records",
@@ -88,6 +90,7 @@ export const projects: Project[] = [
         status: "In Progress",
         period: "2025 - Present",
         role: "Frontend + API Developer",
+        tags: ["Full-Stack", "Next.js", "Backend"],
         problem: "Textile operations involve disconnected workflows across inventory, order handling, and reporting.",
         architecture: [
             "Next.js app with typed component and data layers",
@@ -110,6 +113,7 @@ export const projects: Project[] = [
         status: "Completed",
         period: "2024",
         role: "Backend + Realtime Systems Developer",
+        tags: ["Backend", "Real-time", "Node.js"],
         problem: "Restaurants need live queue and table visibility to reduce wait times and improve service throughput.",
         architecture: [
             "Node.js + MySQL backend with reservation and queue domain modeling",
@@ -122,6 +126,98 @@ export const projects: Project[] = [
             "Created scalable base for multi-branch expansion"
         ],
         longDescription: "### Problem\n- Manual queue handling causes table mismatches and long wait-time uncertainty.\n\n### Architecture\n- Implemented relational schema for reservations, queue state, and table inventory.\n- Built authenticated API endpoints for operational actions.\n- Added WebSocket-driven updates for real-time floor awareness.\n\n### Role\n- Built backend logic, security, and real-time communication pipeline.\n\n### Impact\n- Increased operational responsiveness during peak hours."
+    },
+    {
+        id: "servicepro",
+        title: "Home Service Management Platform",
+        description: "Centralized marketplace connecting homeowners with trusted local service providers. Features role-specific dashboards, real-time communication, and location-aware service discovery using WebSocket-powered coordination.",
+        tech: ["Flask", "MySQL", "WebSockets", "SQLAlchemy"],
+        github: "https://github.com/nitheesh1122/Service_Pro",
+        status: "Completed",
+        period: "2025",
+        role: "Full-Stack Developer",
+        tags: ["Backend", "Flask", "Real-time"],
+        problem: "Homeowners struggle to find trusted service providers, while service professionals lack a centralized platform for customer acquisition and booking management.",
+        architecture: [
+            "Modular Flask backend with authentication, bookings, provider management, and admin workflows",
+            "WebSocket-powered real-time communication for customer-provider interaction and booking coordination",
+            "Role-specific dashboards for homeowners, service providers, and platform administrators with location-aware service discovery"
+        ],
+        impact: [
+            "Improved booking transparency through centralized service tracking and provider management",
+            "Reduced coordination delays with integrated real-time communication workflows",
+            "Built scalable marketplace architecture adaptable for multi-service household ecosystems"
+        ],
+        longDescription: "### Problem\n- Service discovery is fragmented, and service providers lack centralized customer acquisition channels.\n\n### Architecture\n- Built Flask-SocketIO backend with role-based access control and booking workflows.\n- Integrated SQLAlchemy ORM for reliable data persistence.\n- Implemented pincode-based service discovery for location-aware filtering.\n- Added WebSocket real-time chat for instant customer-provider coordination.\n\n### Role\n- Developed backend APIs, database schema, authentication workflows, booking systems, and responsive dashboard interfaces.\n\n### Impact\n- Enhanced service accessibility and streamlined customer-provider coordination through centralized workflow management."
+    },
+    {
+        id: "inventory",
+        title: "Inventory Management System",
+        description: "Scalable REST API-driven inventory platform with real-time stock tracking, automated low-stock monitoring, and analytics pipelines. Role-based access workflows for administrators and staff operations.",
+        tech: ["Node.js", "Express.js", "MongoDB", "JWT"],
+        github: "https://github.com/nitheesh1122/inventory-management-system",
+        status: "Completed",
+        period: "2025",
+        role: "Backend-Focused Full-Stack Developer",
+        tags: ["MERN", "Backend", "Node.js"],
+        problem: "Traditional inventory operations rely on disconnected tracking systems, resulting in stock inconsistencies, inefficient supplier coordination, and delayed operational insights.",
+        architecture: [
+            "Scalable REST APIs for inventory, supplier, billing, analytics, and authentication modules with JWT-based security",
+            "Role-based access workflows for administrators and staff with validation middleware and centralized error handling",
+            "Analytics pipelines for sales monitoring, stock valuation, and product performance insights"
+        ],
+        impact: [
+            "Improved inventory visibility with real-time stock tracking and automated low-stock monitoring",
+            "Reduced operational overhead through centralized supplier and sales management workflows",
+            "Enhanced system security using JWT authentication, validation middleware, and protected route handling"
+        ],
+        longDescription: "### Problem\n- Inventory operations suffer from disconnected tracking, leading to stock mismatches and poor supplier coordination.\n\n### Architecture\n- Built modular Node.js + Express backend with MongoDB Atlas for data persistence.\n- Implemented JWT authentication and Joi validation for secure, validated API endpoints.\n- Integrated Winston logging for operational observability.\n- Created analytics dashboard for real-time inventory insights.\n\n### Role\n- Developed backend services, API architecture, authentication modules, analytics workflows, and frontend integration layers.\n\n### Impact\n- Enabled scalable inventory operations with centralized analytics, automated stock workflows, and secure role-based access systems."
+    },
+    {
+        id: "recruiterpro",
+        title: "RecruiterPRO – AI Resume Screening & ATS Optimization",
+        description: "Dual-platform AI-powered resume screening and optimization system. Uses NLP-based parsing, ATS scoring, and ML recommendations to match candidates with job roles and identify skill gaps.",
+        tech: ["NLP", "Machine Learning", "Python", "Resume Parsing"],
+        github: "https://github.com/nitheesh1122/RecruiterPRO",
+        status: "Completed",
+        period: "2025",
+        role: "Full-Stack Developer",
+        tags: ["AI", "ML", "NLP", "Full-Stack"],
+        problem: "Recruiters struggle to screen large resume volumes efficiently, while job seekers fail ATS evaluations due to missing keywords and weak skill alignment.",
+        architecture: [
+            "NLP-based resume parsing modules to extract skills, experience, and job relevance metrics",
+            "Dual-platform workflows for recruiters and public users with separate screening and optimization pipelines",
+            "ATS scoring engine comparing resumes against job descriptions with role-specific keyword requirements and recommendation workflows"
+        ],
+        impact: [
+            "Improved recruiter efficiency through automated resume ranking and intelligent filtering workflows",
+            "Enabled users to iteratively optimize resumes using ATS feedback and keyword analysis",
+            "Enhanced candidate-job alignment with skill gap detection and personalized recommendation systems"
+        ],
+        longDescription: "### Problem\n- Manual resume screening is time-consuming, and job seekers lack clarity on resume optimization for ATS systems.\n\n### Architecture\n- Implemented NLP-based resume parsing to extract structured skill and experience data.\n- Built ML-powered ATS scoring engine with keyword matching algorithms.\n- Developed recommendation workflows identifying skill gaps and suggesting learning paths.\n- Created separate interfaces for recruiters (screening, filtering) and candidates (optimization feedback).\n\n### Role\n- Developed resume analysis workflows, ATS scoring logic, filtering systems, frontend dashboards, and recommendation modules.\n\n### Impact\n- Reduced manual resume screening effort while improving candidate optimization and role-based resume alignment."
+    },
+    {
+        id: "isl-connect",
+        title: "ISL Connect – Real-Time Indian Sign Language Translator",
+        description: "Accessibility-focused real-time translation platform enabling bidirectional communication between hearing-impaired and non-sign language users. Uses TensorFlow-based gesture recognition and live video processing.",
+        tech: ["React.js", "Flask", "TensorFlow", "Computer Vision"],
+        github: "https://github.com/nitheesh1122/Indian_Sign_language_Translator",
+        status: "Completed",
+        period: "2025",
+        role: "Full-Stack Developer",
+        tags: ["AI", "ML", "Computer Vision", "Full-Stack"],
+        problem: "Communication barriers between hearing-impaired individuals and non-sign language users reduce accessibility in real-time interactions and daily conversations.",
+        architecture: [
+            "TensorFlow-based gesture recognition pipelines for live sign prediction using captured video frames",
+            "React frontend with dual communication workflows for Sign-to-Text and Text/Speech-to-Sign translation",
+            "Flask backend APIs managing real-time communication between frontend and ML inference services with ISL rendering modules using GIF/image datasets"
+        ],
+        impact: [
+            "Enabled real-time bidirectional communication between hearing-impaired and non-sign language users",
+            "Reduced dependency on manual interpreters through AI-assisted gesture recognition workflows",
+            "Improved accessibility with browser-based live video processing and speech-driven sign generation"
+        ],
+        longDescription: "### Problem\n- Communication barriers limit real-time interaction and accessibility for hearing-impaired individuals.\n\n### Architecture\n- Built React-based frontend with webcam capture, live video processing, and responsive UI for dual translation workflows.\n- Implemented Flask backend APIs to manage real-time communication and inference requests.\n- Integrated TensorFlow CNNs for gesture recognition trained on sign language datasets.\n- Developed ISL rendering modules using GIF/image datasets for alphabet-level and word-level sign visualization.\n\n### Role\n- Designed React frontend interfaces, developed Flask backend APIs, integrated TensorFlow prediction workflows, and implemented real-time communication systems.\n\n### Impact\n- Built extensible architecture supporting future continuous sentence-level sign recognition systems."
     }
 ];
 

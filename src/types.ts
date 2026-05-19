@@ -14,6 +14,7 @@ export interface Project {
     impact?: string[];
     longDescription?: string;
     demoGif?: string;
+    tags?: string[];
 }
 
 export interface Education {
