@@ -15,7 +15,7 @@ const About = () => {
                         transition={{ duration: 0.6 }}
                         className="md:col-span-5"
                     >
-                        <h2 className="text-4xl font-semibold mb-6">About Me</h2>
+                        <h2 className="text-4xl font-semibold mb-6 text-brand">About Me</h2>
                         <div className="w-20 h-1 bg-gradient-to-r from-brand-accent to-brand-accent-secondary rounded-full mb-8"></div>
 
                         <p className="text-lg text-muted leading-relaxed mb-8">
@@ -30,8 +30,8 @@ const About = () => {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="md:col-span-6 md:col-start-7"
                     >
-                        <div className="bg-card p-8 rounded-2xl border border-brand shadow-2xl">
-                            <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
+                        <div className="bg-card p-8 rounded-2xl border border-brand shadow-[0_24px_80px_var(--color-brand-chip-glow)]">
+                            <h3 className="text-xl font-semibold mb-6 flex items-center gap-2 text-brand">
                                 <span className="text-brand-accent">⚡</span> Areas of Interest
                             </h3>
 
@@ -39,7 +39,7 @@ const About = () => {
                                 {personalInfo.interests.map((interest, idx) => (
                                     <span
                                         key={idx}
-                                        className="px-4 py-2 surface-soft text-muted rounded-lg hover:border-brand-accent/50 transition-colors cursor-default text-sm font-medium"
+                                        className="px-4 py-2 theme-pill rounded-lg cursor-default text-sm font-medium"
                                     >
                                         {interest}
                                     </span>

@@ -29,9 +29,9 @@ const Navbar = () => {
     const [theme, setTheme] = useState<'dark' | 'light'>(() => {
         try {
             const stored = localStorage.getItem('theme');
-            return (stored as 'dark' | 'light') || 'dark';
+            return (stored as 'dark' | 'light') || 'light';
         } catch {
-            return 'dark';
+            return 'light';
         }
     });
 

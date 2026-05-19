@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 import Navbar from './components/layout/Navbar';
 import Hero from './components/sections/Hero';
-import Education from './components/sections/Education';
-import About from './components/sections/About';
+import EducationAbout from './components/sections/Education';
 import Projects from './components/sections/Projects';
-import HallOfFame from './components/sections/HallOfFame';
 import TechnicalArsenal from './components/sections/TechnicalArsenal';
+import HallOfFame from './components/sections/HallOfFame';
 import Certifications from './components/sections/Certifications';
 import CodeActivity from './components/sections/CodeActivity';
 import Contact from './components/sections/Contact';
@@ -44,13 +43,12 @@ function App() {
         <Navbar />
         <main className="w-full">
           <Hero />
-          <Education />
-          <About />
+          <EducationAbout />
           <Projects />
-          <HallOfFame />
           <TechnicalArsenal />
-          <Certifications />
+          <HallOfFame />
           <CodeActivity />
+          <Certifications />
           <Contact />
         </main>
         <Footer />

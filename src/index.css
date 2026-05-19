@@ -7,6 +7,9 @@
   --color-brand-accent: #10b981;
   --color-brand-accent-secondary: #06b6d4;
   --color-brand-accent-glow: rgba(16, 185, 129, 0.4);
+  --color-brand-chip-glow: rgba(16, 185, 129, 0.28);
+  --color-brand-chip-bg: rgba(16, 185, 129, 0.10);
+  --color-brand-pill-bg: rgba(16, 185, 129, 0.14);
   --color-brand-text: #FFFFFF;
   --color-brand-muted: #a3a3a3;
   --color-brand-border: rgba(255, 255, 255, 0.08);
@@ -20,7 +23,10 @@
   --color-brand-card: #ffffff;
   --color-brand-accent: #0f766e;
   --color-brand-accent-secondary: #0284c7;
-  --color-brand-accent-glow: rgba(15,118,110,0.16);
+  --color-brand-accent-glow: rgba(255, 255, 255, 0.55);
+  --color-brand-chip-glow: rgba(255, 255, 255, 0.72);
+  --color-brand-chip-bg: rgba(255, 255, 255, 0.88);
+  --color-brand-pill-bg: rgba(255, 255, 255, 0.96);
   --color-brand-text: #0b1220;
   --color-brand-muted: #475569;
   --color-brand-border: rgba(15,23,42,0.12);
@@ -93,6 +99,28 @@
     background: color-mix(in srgb, var(--color-brand-bg) 78%, var(--color-brand-card) 22%);
   }
 
+  .theme-pill {
+    background: var(--color-brand-pill-bg);
+    border: 1px solid color-mix(in srgb, var(--color-brand-accent) 24%, var(--color-brand-border));
+    color: var(--color-brand-text);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-brand-accent) 14%, transparent), 0 0 18px var(--color-brand-chip-glow), 0 0 30px color-mix(in srgb, var(--color-brand-accent) 18%, transparent);
+    transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, color 200ms ease;
+  }
+
+  .theme-chip {
+    background: var(--color-brand-chip-bg);
+    border: 1px solid color-mix(in srgb, var(--color-brand-accent) 18%, var(--color-brand-border));
+    color: var(--color-brand-text);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-brand-accent) 10%, transparent), 0 0 14px color-mix(in srgb, var(--color-brand-chip-glow) 70%, transparent);
+    transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, color 200ms ease;
+  }
+
+  .theme-chip:hover,
+  .theme-pill:hover {
+    border-color: color-mix(in srgb, var(--color-brand-accent) 34%, var(--color-brand-border));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-brand-accent) 18%, transparent), 0 0 20px var(--color-brand-chip-glow);
+  }
+
   .loading-shimmer {
     background: linear-gradient(90deg, color-mix(in srgb, var(--color-brand-text) 5%, transparent), color-mix(in srgb, var(--color-brand-text) 10%, transparent), color-mix(in srgb, var(--color-brand-text) 5%, transparent));
   }
@@ -110,7 +138,7 @@
     @apply px-5 py-2 rounded-full font-bold text-sm;
     background: linear-gradient(90deg, var(--color-brand-accent), var(--color-brand-accent-secondary));
     color: var(--color-brand-text);
-    box-shadow: 0 6px 24px rgba(16,185,129,0.12);
+    box-shadow: 0 6px 24px var(--color-brand-accent-glow);
     transition: transform 200ms ease, box-shadow 200ms ease;
   }
   .chip {

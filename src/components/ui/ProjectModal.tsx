@@ -6,10 +6,12 @@ import type { Project } from "../../types";
 interface ProjectModalProps {
     project: Project;
     onClose: () => void;
+    focusSection?: 'overview' | 'architecture';
 }
 
-const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
+const ProjectModal = ({ project, onClose, focusSection = 'overview' }: ProjectModalProps) => {
     const modalRef = useRef<HTMLDivElement>(null);
+    const architectureRef = useRef<HTMLDivElement>(null);
     const [isLightTheme, setIsLightTheme] = useState(() =>
         typeof window !== 'undefined' && document.documentElement.classList.contains('light')
     );
@@ -32,6 +34,16 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
             document.body.style.overflow = "unset";
         };
     }, []);
+
+    useEffect(() => {
+        if (focusSection !== 'architecture') return;
+
+        const frame = window.requestAnimationFrame(() => {
+            architectureRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        return () => window.cancelAnimationFrame(frame);
+    }, [focusSection, project.id]);
 
     useEffect(() => {
         const root = document.documentElement;
@@ -114,7 +126,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
                         </div>
                     )}
 
-                    <div className="mb-6">
+                    <div ref={focusSection === 'overview' ? undefined : undefined} className="mb-6">
                         <div className="flex justify-between items-start mb-2">
                             <h2 className="text-3xl md:text-4xl font-bold text-brand">{project.title}</h2>
                             {project.status && (
@@ -155,7 +167,7 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
                     )}
 
                     {project.architecture && project.architecture.length > 0 && (
-                        <div className="mb-5">
+                        <div ref={architectureRef} className="mb-5 scroll-mt-6">
                             <h3 className="text-lg font-semibold text-brand mb-2">Architecture</h3>
                             <ul className="space-y-1 text-muted list-disc list-inside">
                                 {project.architecture.map((item) => (

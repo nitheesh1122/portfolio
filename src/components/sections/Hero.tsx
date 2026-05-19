@@ -21,7 +21,7 @@ const Hero = () => {
                         transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
                         className="mb-8 relative"
                     >
-                        <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-[3px] border-brand-accent/50 shadow-[0_0_30px_rgba(16,185,129,0.2)] relative z-10">
+                        <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-[3px] border-brand-accent/50 shadow-[0_0_30px_var(--color-brand-accent-glow)] relative z-10">
                             <img
                                 src="/profile.png"
                                 alt={personalInfo.name}
@@ -40,10 +40,10 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.1 }}
-                        className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full surface-soft backdrop-blur-md"
+                        className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full theme-pill backdrop-blur-md"
                     >
-                        <span className="w-2 h-2 rounded-full bg-brand-accent animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span>
-                        <span className="text-sm font-medium text-muted">Available for new opportunities</span>
+                        <span className="w-2 h-2 rounded-full bg-brand-accent animate-pulse shadow-[0_0_8px_var(--color-brand-accent-glow)]"></span>
+                        <span className="text-sm font-medium text-brand">Available for new opportunities</span>
                     </motion.div>
 
                     {/* Name */}
