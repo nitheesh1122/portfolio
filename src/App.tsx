@@ -40,7 +40,7 @@ function App() {
         style={{ scaleX: scrollYProgress }}
       />
 
-      <div className="min-h-screen bg-brand-bg text-white font-sans selection:bg-brand-accent/30 selection:text-white relative z-10 w-full overflow-x-hidden">
+      <div className="min-h-screen bg-brand text-brand font-sans selection:bg-brand-accent/30 selection:text-brand relative z-10 w-full overflow-x-hidden">
         <Navbar />
         <main className="w-full">
           <Hero />

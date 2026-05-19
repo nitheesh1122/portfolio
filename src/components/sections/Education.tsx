@@ -17,7 +17,7 @@ const Education = () => {
                         <span className="w-12 h-[1px] bg-brand-accent"></span>
                         Education
                     </h2>
-                    <p className="text-slate-400 pl-16">Academic background and qualifications</p>
+                    <p className="text-muted pl-16">Academic background and qualifications</p>
                 </motion.div>
 
                 <div className="grid md:grid-cols-2 gap-8 pl-0 md:pl-16">
@@ -28,7 +28,7 @@ const Education = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="group p-8 rounded-2xl bg-[#141414] border border-white/5 hover:border-brand-accent/30 transition-all duration-300 relative overflow-hidden"
+                            className="group p-8 rounded-2xl bg-card border border-brand hover:border-brand-accent/30 transition-all duration-300 relative overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 w-32 h-32 bg-brand-accent/5 rounded-full blur-3xl group-hover:bg-brand-accent/10 transition-colors" />
 
@@ -36,11 +36,11 @@ const Education = () => {
                                 {edu.period}
                             </span>
 
-                            <h3 className="text-xl font-bold text-white mb-2 leading-tight">
+                            <h3 className="text-xl font-bold text-brand mb-2 leading-tight">
                                 {edu.degree}
                             </h3>
 
-                            <p className="text-slate-400">
+                            <p className="text-muted">
                                 {edu.institution}
                             </p>
                         </motion.div>

@@ -43,8 +43,8 @@ const Projects = () => {
                     transition={{ duration: 0.6 }}
                     className="mb-16 text-center"
                 >
-                    <h2 className="text-4xl font-semibold mb-4 text-white">Featured Projects</h2>
-                    <p className="text-slate-400 max-w-2xl mx-auto">Scalable solutions and applications built to solve complex real-world problems.</p>
+                    <h2 className="text-4xl font-semibold mb-4 text-brand">Featured Projects</h2>
+                    <p className="text-muted max-w-2xl mx-auto">Scalable solutions and applications built to solve complex real-world problems.</p>
                 </motion.div>
 
                 {/* Filter Tags */}
@@ -61,8 +61,8 @@ const Projects = () => {
                             onClick={() => toggleFilter(tag)}
                             className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
                                 selectedFilters.includes(tag)
-                                    ? 'bg-brand-accent text-white shadow-lg shadow-brand-accent/50'
-                                    : 'bg-white/5 text-slate-300 border border-white/10 hover:border-brand-accent/50 hover:text-white'
+                                    ? 'accent-gradient text-brand shadow-lg'
+                                    : 'bg-card text-muted border border-brand hover:border-[color:var(--color-brand-accent)] hover:text-brand'
                             }`}
                         >
                             {tag}
@@ -75,7 +75,7 @@ const Projects = () => {
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="text-center text-slate-400 text-sm mb-8"
+                        className="text-center text-muted text-sm mb-8"
                     >
                         Showing {filteredProjects.length} of {projects.length} projects
                     </motion.p>
@@ -96,10 +96,14 @@ const Projects = () => {
                                     viewport={{ once: true, margin: "-100px" }}
                                     transition={{ duration: 0.5, delay: idx * 0.1 }}
                                     onClick={() => setSelectedProject(project)}
-                                    className={`group bg-[#141414] rounded-3xl p-8 border border-white/5 hover:border-brand-accent/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-between items-start 
-                                    ${isPrimary ? 'bg-gradient-to-br from-[#141414] to-[#0a1a15]' : ''} cursor-pointer`}
+                                    className={`group rounded-3xl p-8 transition-all duration-300 relative overflow-hidden flex flex-col justify-between items-start cursor-pointer`}
+                                    style={{
+                                        background: 'linear-gradient(180deg, var(--color-brand-card), color-mix(in srgb, var(--color-brand-card) 85%, transparent))',
+                                        border: '1px solid var(--color-brand-border)',
+                                        boxShadow: 'var(--shadow-soft)'
+                                    }}
                                 >
-                                    <div className="absolute top-0 right-0 w-64 h-64 bg-brand-accent/5 rounded-full blur-3xl group-hover:bg-brand-accent/10 transition-colors pointer-events-none" />
+                                        <div className="absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl pointer-events-none" style={{ background: 'radial-gradient(closest-side, color-mix(in srgb, var(--color-brand-accent) 12%, transparent), transparent)' }} />
 
                                     <div className="w-full relative z-10">
                                         {project.image && (
@@ -107,17 +111,18 @@ const Projects = () => {
                                                 <img
                                                     src={new URL(`../../assets/projects/${project.image}`, import.meta.url).href}
                                                     alt={project.title}
-                                                    className="w-full h-40 object-cover rounded-xl border border-white/5 bg-black/10"
+                                                    className="w-full h-40 object-cover rounded-xl"
+                                                    style={{ border: '1px solid var(--color-brand-border)', background: 'linear-gradient(180deg, color-mix(in srgb, var(--color-brand-card) 60%, transparent), transparent)' }}
                                                     loading="lazy"
                                                 />
                                             </div>
                                         )}
 
-                                        <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-brand-accent transition-colors">
+                                        <h3 className="text-2xl font-bold text-brand mb-3 group-hover:text-[color:var(--color-brand-accent)] transition-colors">
                                             {project.title}
                                         </h3>
 
-                                        <p className="text-slate-400 mb-8 leading-relaxed text-sm">
+                                        <p className="text-muted mb-8 leading-relaxed text-sm">
                                             {project.description}
                                         </p>
                                     </div>
@@ -127,7 +132,7 @@ const Projects = () => {
                                             {project.tech.map((tech) => (
                                                 <span
                                                     key={tech}
-                                                    className="px-3 py-1 bg-white/5 text-slate-300 text-xs font-semibold rounded-md border border-white/5"
+                                                    className="chip"
                                                 >
                                                     {tech}
                                                 </span>
@@ -140,7 +145,7 @@ const Projects = () => {
                                                     href={project.github}
                                                     target="_blank"
                                                     rel="noreferrer"
-                                                    className="flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                                                    className="flex items-center gap-2 text-sm font-medium text-muted hover:text-brand transition-colors"
                                                 >
                                                     <Github size={18} />
                                                     Code
@@ -151,7 +156,7 @@ const Projects = () => {
                                                     href={project.live}
                                                     target="_blank"
                                                     rel="noreferrer"
-                                                    className="flex items-center gap-2 text-sm font-medium text-brand-accent hover:text-white transition-colors"
+                                                    className="flex items-center gap-2 text-sm font-medium text-[color:var(--color-brand-accent)] hover:text-brand transition-colors"
                                                 >
                                                     <ExternalLink size={18} />
                                                     Live Demo
@@ -161,7 +166,7 @@ const Projects = () => {
                                             <button
                                                 type="button"
                                                 onClick={() => setSelectedProject(project)}
-                                                className="text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                                                className="text-sm font-medium text-muted hover:text-brand transition-colors"
                                             >
                                                 Case Study
                                             </button>
@@ -178,10 +183,10 @@ const Projects = () => {
                         animate={{ opacity: 1 }}
                         className="text-center py-12"
                     >
-                        <p className="text-slate-400 text-lg">No projects match the selected filters.</p>
+                        <p className="text-muted text-lg">No projects match the selected filters.</p>
                         <button
                             onClick={() => setSelectedFilters([])}
-                            className="mt-4 px-4 py-2 text-brand-accent hover:text-white transition-colors text-sm font-medium"
+                            className="mt-4 px-4 py-2 text-brand-accent hover:text-brand transition-colors text-sm font-medium"
                         >
                             Clear filters
                         </button>

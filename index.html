@@ -26,6 +26,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <script>/* Theme pre-hydrate: apply light theme before JS mounts to avoid flash */
+      (function(){
+        try{
+          var t = localStorage.getItem('theme');
+          if(t === 'light') document.documentElement.classList.add('light');
+        }catch(e){}
+      })();
+    </script>
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -82,7 +91,7 @@
       }
     </script>
   </head>
-  <body class="bg-[#0B0F19] text-white">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

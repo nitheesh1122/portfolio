@@ -85,7 +85,7 @@ const Contact = () => {
     };
 
     return (
-        <section id="contact" className="py-32 relative z-10 border-t border-white/5">
+        <section id="contact" className="py-32 relative z-10 border-t border-brand">
             <div className="max-w-5xl mx-auto px-6">
 
                 <motion.div
@@ -95,10 +95,10 @@ const Contact = () => {
                     transition={{ duration: 0.6 }}
                     className="mb-12 text-center"
                 >
-                    <h2 className="text-5xl md:text-7xl font-black mb-8 text-white tracking-tight">
+                    <h2 className="text-5xl md:text-7xl font-black mb-8 text-brand tracking-tight">
                         Let's Work Together
                     </h2>
-                    <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-xl text-muted max-w-2xl mx-auto leading-relaxed">
                         I'm currently available for full-time opportunities and freelance projects. Whether you have a question or just want to say hi, I'll try my best to get back to you!
                     </p>
                 </motion.div>
@@ -110,32 +110,32 @@ const Contact = () => {
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.5, delay: 0.2 }}
                         onSubmit={handleSubmit}
-                        className="bg-[#141414] border border-white/10 rounded-2xl p-6 md:p-8"
+                        className="bg-card border border-brand rounded-2xl p-6 md:p-8"
                     >
-                        <h3 className="text-2xl font-bold text-white mb-6">Send a Message</h3>
+                        <h3 className="text-2xl font-bold text-brand mb-6">Send a Message</h3>
 
                         <div className="space-y-4">
                             <div>
-                                <label htmlFor="contact-name" className="block text-sm text-slate-300 mb-2">Name</label>
+                                <label htmlFor="contact-name" className="block text-sm text-muted mb-2">Name</label>
                                 <input
                                     id="contact-name"
                                     type="text"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className="w-full rounded-xl bg-[#0a0a0a] border border-white/10 px-4 py-3 text-white outline-none focus:border-brand-accent"
+                                    className="w-full rounded-xl bg-card border border-brand px-4 py-3 text-brand outline-none focus:border-brand-accent"
                                     placeholder="Your name"
                                     autoComplete="name"
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="contact-email" className="block text-sm text-slate-300 mb-2">Email</label>
+                                <label htmlFor="contact-email" className="block text-sm text-muted mb-2">Email</label>
                                 <input
                                     id="contact-email"
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full rounded-xl bg-[#0a0a0a] border border-white/10 px-4 py-3 text-white outline-none focus:border-brand-accent"
+                                    className="w-full rounded-xl bg-card border border-brand px-4 py-3 text-brand outline-none focus:border-brand-accent"
                                     placeholder="you@example.com"
                                     autoComplete="email"
                                 />
@@ -154,13 +154,13 @@ const Contact = () => {
                             </div>
 
                             <div>
-                                <label htmlFor="contact-message" className="block text-sm text-slate-300 mb-2">Message</label>
+                                <label htmlFor="contact-message" className="block text-sm text-muted mb-2">Message</label>
                                 <textarea
                                     id="contact-message"
                                     rows={5}
                                     value={message}
                                     onChange={(e) => setMessage(e.target.value)}
-                                    className="w-full rounded-xl bg-[#0a0a0a] border border-white/10 px-4 py-3 text-white outline-none focus:border-brand-accent resize-none"
+                                    className="w-full rounded-xl bg-card border border-brand px-4 py-3 text-brand outline-none focus:border-brand-accent resize-none"
                                     placeholder="Tell me about your role or project."
                                 />
                             </div>
@@ -174,7 +174,7 @@ const Contact = () => {
                             <button
                                 type="submit"
                                 disabled={submitting}
-                                className="w-full py-3 rounded-xl bg-gradient-to-r from-brand-accent to-brand-accent-secondary text-black font-bold disabled:opacity-60 disabled:cursor-not-allowed"
+                                className="w-full py-3 rounded-xl btn-accent font-bold disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                                 {submitting ? 'Sending...' : 'Send Message'}
                             </button>
@@ -186,18 +186,18 @@ const Contact = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.5, delay: 0.3 }}
-                        className="bg-[#141414] border border-white/10 rounded-2xl p-6 md:p-8"
+                        className="bg-card border border-brand rounded-2xl p-6 md:p-8"
                     >
-                        <h3 className="text-2xl font-bold text-white mb-6">Direct Contact</h3>
+                            <h3 className="text-2xl font-bold text-brand mb-6">Direct Contact</h3>
                         <div className="space-y-4">
                             <a
                                 href={`mailto:${personalInfo.email}`}
-                                className="w-full flex items-center gap-3 px-5 py-4 bg-[#0a0a0a] text-white font-medium rounded-xl border border-white/10 hover:border-brand-accent/60 transition-colors"
+                                    className="w-full flex items-center gap-3 px-5 py-4 bg-card text-brand font-medium rounded-xl border border-brand hover:border-brand-accent/60 transition-colors"
                             >
                                 <Mail size={18} />
                                 {personalInfo.email}
                             </a>
-                            <div className="w-full flex items-center gap-3 px-5 py-4 bg-[#0a0a0a] text-slate-300 font-medium rounded-xl border border-white/10">
+                                <div className="w-full flex items-center gap-3 px-5 py-4 bg-card text-muted font-medium rounded-xl border border-brand">
                                 <MapPin size={18} />
                                 {personalInfo.location}
                             </div>
@@ -210,7 +210,7 @@ const Contact = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.5, delay: 0.4 }}
-                    className="flex justify-center items-center gap-2 text-slate-500 mt-10"
+                    className="flex justify-center items-center gap-2 text-muted mt-10"
                 >
                     <MapPin size={18} />
                     <span>{personalInfo.location}</span>

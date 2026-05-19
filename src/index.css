@@ -1,71 +1,125 @@
 @import "tailwindcss";
 
-@theme {
+:root {
+  /* Dark theme (default) */
   --color-brand-bg: #0a0a0a;
   --color-brand-card: #141414;
   --color-brand-accent: #10b981;
-  /* Emerald */
   --color-brand-accent-secondary: #06b6d4;
-  /* Cyan */
   --color-brand-accent-glow: rgba(16, 185, 129, 0.4);
   --color-brand-text: #FFFFFF;
   --color-brand-muted: #a3a3a3;
   --color-brand-border: rgba(255, 255, 255, 0.08);
 
-  --font-sans: 'Inter', sans-serif;
-  --font-heading: 'Outfit', 'Inter', sans-serif;
+  --shadow-soft: 0 6px 24px rgba(2,6,23,0.6);
+}
 
+.light {
+  /* Light theme variables */
+  --color-brand-bg: #f4f7fb;
+  --color-brand-card: #ffffff;
+  --color-brand-accent: #0f766e;
+  --color-brand-accent-secondary: #0284c7;
+  --color-brand-accent-glow: rgba(15,118,110,0.16);
+  --color-brand-text: #0b1220;
+  --color-brand-muted: #475569;
+  --color-brand-border: rgba(15,23,42,0.12);
 
-  @keyframes float {
+  --shadow-soft: 0 10px 30px rgba(15,23,42,0.10);
+}
 
-    0%,
-    100% {
-      transform: translateY(0);
-    }
+/* Smooth global transitions for theme properties */
+:root,
+.light {
+  transition: background-color 350ms cubic-bezier(.2,.9,.3,1), color 300ms linear;
+}
 
-    50% {
-      transform: translateY(-10px);
-    }
-  }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 @layer base {
   body {
-    @apply antialiased bg-brand-bg text-brand-text;
+    @apply antialiased;
+    background-color: var(--color-brand-bg);
+    color: var(--color-brand-text);
     overflow-x: hidden;
+    transition: background-color 400ms cubic-bezier(.2,.9,.3,1), color 300ms linear;
   }
 
   ::selection {
-    @apply bg-brand-accent/30 text-white;
+    background-color: color-mix(in srgb, var(--color-brand-accent) 30%, transparent);
+    color: var(--color-brand-text);
   }
 
-  /* Custom Scrollbar styled for Weightless SaaS theme */
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: var(--color-brand-bg);
-  }
-
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-brand-card);
+    background: linear-gradient(180deg, var(--color-brand-card), var(--color-brand-card));
     border-radius: 10px;
-    border: 1px solid var(--color-brand-border);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    box-shadow: 0 0 0 6px transparent;
+    transition: background-color 200ms ease, box-shadow 200ms ease;
   }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-brand-accent);
-    box-shadow: 0 0 10px var(--color-brand-accent-glow);
-  }
+  ::-webkit-scrollbar-thumb:hover { box-shadow: 0 0 12px var(--color-brand-accent-glow); }
 }
 
 @layer utilities {
   .glass-panel {
-    @apply bg-brand-card/70 backdrop-blur-md border border-brand-border shadow-[0_4px_30px_#0000001a];
+    background: color-mix(in srgb, var(--color-brand-bg) 88%, var(--color-brand-card) 12%);
+    backdrop-blur: 8px;
+    border: 1px solid var(--color-brand-border);
+    box-shadow: var(--shadow-soft);
   }
 
-  .glow-text {
-    @apply text-white drop-shadow-[0_0_8px_var(--color-brand-accent-glow)];
+  .glow-text { text-shadow: 0 0 8px var(--color-brand-accent-glow); }
+}
+
+/* Theme-aware utility aliases */
+@layer utilities {
+  /* Overlay that respects theme background with semi-transparency */
+  .overlay { background: color-mix(in srgb, var(--color-brand-bg) 80%, transparent); }
+
+  .surface-soft {
+    background: color-mix(in srgb, var(--color-brand-bg) 86%, var(--color-brand-card) 14%);
+    border: 1px solid var(--color-brand-border);
+    transition: background-color 200ms ease, border-color 200ms ease;
+  }
+
+  .surface-soft:hover {
+    background: color-mix(in srgb, var(--color-brand-bg) 78%, var(--color-brand-card) 22%);
+  }
+
+  .loading-shimmer {
+    background: linear-gradient(90deg, color-mix(in srgb, var(--color-brand-text) 5%, transparent), color-mix(in srgb, var(--color-brand-text) 10%, transparent), color-mix(in srgb, var(--color-brand-text) 5%, transparent));
+  }
+
+  .text-brand { color: var(--color-brand-text) !important; }
+  .text-muted { color: var(--color-brand-muted) !important; }
+  .bg-brand { background-color: var(--color-brand-bg) !important; }
+  .bg-card { background-color: var(--color-brand-card) !important; }
+  .border-brand { border-color: var(--color-brand-border) !important; }
+  .accent-gradient {
+    background: linear-gradient(90deg, var(--color-brand-accent), var(--color-brand-accent-secondary));
+    color: var(--color-brand-text);
+  }
+  .btn-accent {
+    @apply px-5 py-2 rounded-full font-bold text-sm;
+    background: linear-gradient(90deg, var(--color-brand-accent), var(--color-brand-accent-secondary));
+    color: var(--color-brand-text);
+    box-shadow: 0 6px 24px rgba(16,185,129,0.12);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .chip {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--color-brand-bg) 82%, var(--color-brand-card) 18%);
+    border: 1px solid var(--color-brand-border);
+    color: var(--color-brand-muted);
+    font-weight: 600;
+    font-size: 0.75rem;
   }
 }

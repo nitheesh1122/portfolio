@@ -13,8 +13,8 @@ const TechnicalArsenal = () => {
                     transition={{ duration: 0.6 }}
                     className="mb-16 text-center"
                 >
-                    <h2 className="text-4xl font-semibold mb-4 text-white">Technical Arsenal</h2>
-                    <p className="text-slate-400 max-w-2xl mx-auto">Technologies and tools I use to build scalable web applications and intelligent systems.</p>
+                    <h2 className="text-4xl font-semibold mb-4 text-brand">Technical Arsenal</h2>
+                    <p className="text-muted max-w-2xl mx-auto">Technologies and tools I use to build scalable web applications and intelligent systems.</p>
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -25,9 +25,9 @@ const TechnicalArsenal = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-100px" }}
                             transition={{ duration: 0.5, delay: idx * 0.1 }}
-                            className="bg-[#141414] p-8 rounded-2xl border border-white/5 hover:border-brand-accent/30 transition-colors group"
+                            className="bg-card p-8 rounded-2xl border border-brand hover:border-brand-accent/30 transition-colors group"
                         >
-                            <h3 className="text-xl font-bold text-white mb-6 group-hover:text-brand-accent transition-colors">
+                            <h3 className="text-xl font-bold text-brand mb-6 group-hover:text-brand-accent transition-colors">
                                 {category.title}
                             </h3>
 
@@ -35,7 +35,7 @@ const TechnicalArsenal = () => {
                                 {category.skills.map((skill) => (
                                     <span
                                         key={skill}
-                                        className="px-3 py-1.5 bg-[#0a0a0a] text-slate-300 text-sm font-medium rounded-lg border border-white/5 hover:border-brand-accent/50 hover:bg-brand-accent/5 transition-all cursor-default"
+                                        className="px-3 py-1.5 bg-brand text-muted text-sm font-medium rounded-lg border border-brand hover:border-brand-accent/50 hover:bg-brand-accent/5 transition-all cursor-default"
                                     >
                                         {skill}
                                     </span>
