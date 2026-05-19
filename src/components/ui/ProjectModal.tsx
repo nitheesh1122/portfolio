@@ -81,6 +81,17 @@ const ProjectModal = ({ project, onClose }: ProjectModalProps) => {
                 </button>
 
                 <div className="p-8 md:p-10">
+                    {project.image && (
+                        <div className="mb-6">
+                            <img
+                                src={new URL(`../../assets/projects/${project.image}`, import.meta.url).href}
+                                alt={project.title}
+                                className="w-full rounded-xl border border-white/10 bg-black/20 mb-6"
+                                loading="lazy"
+                            />
+                        </div>
+                    )}
+
                     <div className="mb-6">
                         <div className="flex justify-between items-start mb-2">
                             <h2 className="text-3xl md:text-4xl font-bold">{project.title}</h2>

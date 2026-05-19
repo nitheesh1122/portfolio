@@ -102,6 +102,17 @@ const Projects = () => {
                                     <div className="absolute top-0 right-0 w-64 h-64 bg-brand-accent/5 rounded-full blur-3xl group-hover:bg-brand-accent/10 transition-colors pointer-events-none" />
 
                                     <div className="w-full relative z-10">
+                                        {project.image && (
+                                            <div className="mb-4 w-full">
+                                                <img
+                                                    src={new URL(`../../assets/projects/${project.image}`, import.meta.url).href}
+                                                    alt={project.title}
+                                                    className="w-full h-40 object-cover rounded-xl border border-white/5 bg-black/10"
+                                                    loading="lazy"
+                                                />
+                                            </div>
+                                        )}
+
                                         <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-brand-accent transition-colors">
                                             {project.title}
                                         </h3>
