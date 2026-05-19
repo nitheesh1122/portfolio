@@ -53,7 +53,7 @@ const Hero = () => {
                         transition={{ duration: 0.6, delay: 0.1 }}
                         className="text-6xl md:text-8xl font-black tracking-tighter mb-4 font-heading"
                     >
-                        {personalInfo.name}
+                        {personalInfo.fullName}
                     </motion.h1>
 
                     {/* Role (Gradient) */}

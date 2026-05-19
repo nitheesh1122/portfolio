@@ -1,7 +1,8 @@
 import type { Project, Education, Award, Certification, SkillCategory } from '../types';
 
 export const personalInfo = {
-    name: "NITHEESH S",
+    name: "Nitheesh.dev",
+    fullName: "Nitheesh Selvaraj",
     role: "Full Stack Developer",
     tagline: "Engineering scalable solutions at the intersection of web technology and real-world impact. Transforming complex problems into elegant, user-centric applications.",
     location: "Erode, Tamil Nadu, India",

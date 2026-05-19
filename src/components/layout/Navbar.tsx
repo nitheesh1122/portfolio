@@ -53,7 +53,6 @@ const Navbar = () => {
                 {/* Logo */}
                 <a href="#" className="text-xl font-bold tracking-tight text-brand flex items-center gap-1">
                     {personalInfo.name}
-                    <span className="text-brand-accent">.</span>
                 </a>
 
                 {/* Desktop Nav */}
