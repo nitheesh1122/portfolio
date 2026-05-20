@@ -134,6 +134,37 @@
     background: linear-gradient(90deg, var(--color-brand-accent), var(--color-brand-accent-secondary));
     color: var(--color-brand-text);
   }
+  .hero-primary-cta {
+    background: linear-gradient(90deg, var(--color-brand-accent), var(--color-brand-accent-secondary));
+    color: #ffffff;
+    box-shadow: 0 10px 28px color-mix(in srgb, var(--color-brand-accent) 32%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-brand-accent) 28%, transparent);
+    transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, color 200ms ease, transform 200ms ease;
+  }
+
+  .light .hero-primary-cta {
+    background: #ffffff;
+    color: var(--color-brand-accent);
+    border: 1px solid color-mix(in srgb, var(--color-brand-accent) 18%, var(--color-brand-border));
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  .light .hero-primary-cta:hover {
+    color: #ffffff;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+  }
+
+  .hero-primary-cta:hover {
+    border-color: color-mix(in srgb, var(--color-brand-accent) 38%, transparent);
+  }
+
+  .hero-primary-cta > .absolute {
+    opacity: 0;
+  }
+
+  .hero-primary-cta:hover > .absolute {
+    opacity: 1;
+  }
   .btn-accent {
     @apply px-5 py-2 rounded-full font-bold text-sm;
     background: linear-gradient(90deg, var(--color-brand-accent), var(--color-brand-accent-secondary));

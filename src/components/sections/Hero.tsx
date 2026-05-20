@@ -1,10 +1,77 @@
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { personalInfo } from '../../data/portfolio';
 import { ArrowRight } from 'lucide-react';
 
 const Hero = () => {
+    const [showIntro, setShowIntro] = useState(true);
+
+    useEffect(() => {
+        const timer = window.setTimeout(() => setShowIntro(false), 2400);
+        return () => window.clearTimeout(timer);
+    }, []);
+
     return (
         <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+            {showIntro && (
+                <motion.div
+                    aria-hidden="true"
+                    className="fixed inset-0 z-50 overflow-hidden bg-brand"
+                    initial={{ opacity: 1 }}
+                    animate={{ opacity: 0 }}
+                    transition={{ duration: 0.35, delay: 2.05 }}
+                >
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.14),transparent_45%),radial-gradient(circle_at_top_right,rgba(6,182,212,0.10),transparent_30%)]" />
+                    <div className="absolute inset-0 opacity-30 bg-[linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:96px_96px] [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)]" />
+
+                    <motion.div
+                        className="absolute inset-y-0 left-0 w-1/2 bg-[linear-gradient(135deg,rgba(8,47,73,0.96),rgba(15,23,42,0.98),rgba(6,78,59,0.9))]"
+                        initial={{ x: 0 }}
+                        animate={{ x: '-104%' }}
+                        transition={{ duration: 0.95, ease: [0.77, 0, 0.18, 1], delay: 0.55 }}
+                    />
+                    <motion.div
+                        className="absolute inset-y-0 right-0 w-1/2 bg-[linear-gradient(225deg,rgba(15,23,42,0.98),rgba(8,47,73,0.96),rgba(6,95,70,0.9))]"
+                        initial={{ x: 0 }}
+                        animate={{ x: '104%' }}
+                        transition={{ duration: 0.95, ease: [0.77, 0, 0.18, 1], delay: 0.55 }}
+                    />
+
+                    <motion.div
+                        className="absolute inset-0 flex items-center justify-center px-6"
+                        initial={{ opacity: 0, scale: 0.82, y: 24 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{ duration: 0.55, ease: 'easeOut' }}
+                    >
+                        <div className="relative w-full max-w-3xl text-center">
+                            <motion.div
+                                className="mx-auto mb-6 w-fit rounded-full border border-brand-accent/20 bg-black/20 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.36em] text-brand"
+                                initial={{ opacity: 0, y: 12 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.35, delay: 0.15 }}
+                            >
+                                Opening portfolio
+                            </motion.div>
+
+                            <motion.div
+                                className="space-y-4"
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.45, delay: 0.25 }}
+                            >
+                                <div className="h-px w-full bg-gradient-to-r from-transparent via-brand-accent/70 to-transparent" />
+                                <p className="text-3xl font-semibold tracking-tight text-brand md:text-4xl">
+                                    Hi, I'm NITHEESH SELVARAJ
+                                </p>
+                                <p className="mx-auto max-w-2xl text-sm leading-6 text-brand-muted md:text-base">
+                                    I'm a software engineer specializing in building exceptional digital experiences
+                                </p>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                </motion.div>
+            )}
+
             {/* Subtle Gradient Mesh Background */}
             <div className="absolute inset-0 z-0">
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-accent/10 rounded-full blur-[120px] mix-blend-screen animate-[pulse_8s_ease-in-out_infinite]" />
@@ -85,18 +152,18 @@ const Hero = () => {
                     >
                         <a
                             href="#projects"
-                            className="group relative px-8 py-4 accent-gradient font-semibold rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
+                            className="hero-primary-cta group relative px-8 py-4 font-semibold rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
                         >
-                            <span className="relative z-10">View Projects</span>
+                            <span className="relative z-10">See What I Build</span>
                             <ArrowRight size={18} className="relative z-10 group-hover:translate-x-1 transition-transform" />
                             <div className="absolute inset-0 bg-gradient-to-r from-brand-accent to-brand-accent-secondary opacity-0 group-hover:opacity-100 transition-opacity" />
                         </a>
 
                         <a
                             href="#contact"
-                            className="px-8 py-4 rounded-full font-semibold border border-brand hover:bg-card transition-all flex items-center gap-2 group hover:border-brand-accent/20"
+                            className="hero-primary-cta group px-8 py-4 rounded-full font-semibold transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
                         >
-                            <span>Get in Touch</span>
+                            <span>Let's Connect</span>
                         </a>
                     </motion.div>
                 </div>
