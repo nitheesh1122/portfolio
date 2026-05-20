@@ -15,11 +15,16 @@ const getProjectImageUrl = (image?: string) => {
 const Projects = () => {
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
-    const featuredProjects = useMemo(
-        () => featuredIds.map((id) => projects.find((project) => project.id === id)).filter(Boolean) as Project[],
-        []
-    );
+    const allTags = useMemo(() => Array.from(new Set(projects.flatMap((p) => p.tags || []))), []);
+
+    const featuredProjects = useMemo(() => {
+        if (selectedTag) {
+            return projects.filter((p) => p.tags?.includes(selectedTag));
+        }
+        return featuredIds.map((id) => projects.find((project) => project.id === id)).filter(Boolean) as Project[];
+    }, [selectedTag]);
     const maxIndex = Math.max(0, featuredProjects.length - 2);
     const visibleProjects = featuredProjects.slice(currentIndex, currentIndex + 2);
 
@@ -45,6 +50,26 @@ const Projects = () => {
             </div>
 
             <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="mb-6 flex items-center gap-3 flex-wrap">
+                    <div className="text-sm font-semibold text-muted mr-2">Filter:</div>
+                    <div className="flex gap-2 flex-wrap">
+                        <button
+                            onClick={() => setSelectedTag(null)}
+                            className={`px-3 py-1 rounded-md text-sm ${selectedTag ? 'text-muted' : 'bg-card border border-brand text-brand'}`}
+                        >
+                            All
+                        </button>
+                        {allTags.map((tag) => (
+                            <button
+                                key={tag}
+                                onClick={() => setSelectedTag((t) => (t === tag ? null : tag))}
+                                className={`px-3 py-1 rounded-md text-sm ${selectedTag === tag ? 'bg-brand-accent text-white' : 'bg-card border border-brand text-muted'}`}
+                            >
+                                {tag}
+                            </button>
+                        ))}
+                    </div>
+                </div>
                 <motion.div
                     initial={{ opacity: 0, y: 18 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -124,6 +149,7 @@ const ProjectDeckCard = ({ project, position, highlighted, onOpen }: ProjectDeck
     const imageUrl = getProjectImageUrl(project.image);
     const topTech = project.tech.slice(0, 4);
     const impactLine = project.impact?.[0] ?? project.description;
+    const [hovered, setHovered] = useState(false);
 
     return (
         <motion.article
@@ -139,7 +165,22 @@ const ProjectDeckCard = ({ project, position, highlighted, onOpen }: ProjectDeck
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,color-mix(in_srgb,var(--color-brand-accent)_12%,transparent),transparent_35%),radial-gradient(circle_at_bottom_right,color-mix(in_srgb,var(--color-brand-accent-secondary)_16%,transparent),transparent_32%)] opacity-90" />
             <div className="absolute inset-0 border border-brand/10" />
 
-            <div className="relative p-4 sm:p-5">
+            <div
+                className="relative p-4 sm:p-5"
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+                onFocus={() => setHovered(true)}
+                onBlur={() => setHovered(false)}
+                tabIndex={0}
+                role="button"
+                aria-label={`Preview ${project.title}`}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        onOpen();
+                    }
+                }}
+            >
                 <div className="mb-4 flex items-center justify-between gap-3 text-[11px] uppercase tracking-[0.26em] text-muted">
                     <span>{highlighted ? 'Highlighted' : `Project ${String(position + 1).padStart(2, '0')}`}</span>
                     <span className={`rounded-full border px-2.5 py-1 font-semibold ${project.status === 'In Progress' ? 'border-amber-400/20 bg-amber-500/10 text-brand' : 'border-emerald-400/20 bg-emerald-500/10 text-brand'}`}>
@@ -189,7 +230,7 @@ const ProjectDeckCard = ({ project, position, highlighted, onOpen }: ProjectDeck
                             Explore System
                             <ChevronRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
                         </button>
-                        {project.github && (
+                            {project.github && (
                             <ActionIconLink href={project.github} label="GitHub">
                                 <Github size={15} />
                             </ActionIconLink>
@@ -202,6 +243,38 @@ const ProjectDeckCard = ({ project, position, highlighted, onOpen }: ProjectDeck
                     </div>
                 </div>
             </div>
+
+                <AnimatePresence>
+                    {hovered && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 6 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute inset-0 z-20 p-5 bg-black/40 backdrop-blur-md rounded-[1.5rem] flex flex-col justify-between"
+                        >
+                            <div>
+                                <h4 className="text-lg font-bold text-brand mb-2">{project.title}</h4>
+                                <p className="text-sm text-muted line-clamp-3">{project.longDescription ? project.longDescription.replace(/\n/g, ' ') : project.description}</p>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <div className="flex gap-2">
+                                    {project.tech.slice(0, 6).map((t) => (
+                                        <span key={t} className="theme-chip px-2 py-1 text-xs">{t}</span>
+                                    ))}
+                                </div>
+                                <div className="flex gap-2">
+                                    {project.github && (
+                                        <a href={project.github} target="_blank" rel="noreferrer" className="btn-accent px-3 py-2 text-xs">Code</a>
+                                    )}
+                                    {project.live && (
+                                        <a href={project.live} target="_blank" rel="noreferrer" className="px-3 py-2 rounded-md bg-card border border-brand text-sm">Live</a>
+                                    )}
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
         </motion.article>
     );
 };

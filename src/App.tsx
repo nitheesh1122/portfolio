@@ -9,6 +9,8 @@ import Certifications from './components/sections/Certifications';
 import CodeActivity from './components/sections/CodeActivity';
 import Contact from './components/sections/Contact';
 import Footer from './components/layout/Footer';
+import { Reveal } from './components/ui/Reveal';
+import SocialDock from './components/layout/SocialDock';
 import { motion, useScroll } from 'framer-motion';
 
 function App() {
@@ -41,15 +43,16 @@ function App() {
 
       <div className="min-h-screen bg-brand text-brand font-sans selection:bg-brand-accent/30 selection:text-brand relative z-10 w-full overflow-x-hidden">
         <Navbar />
+        <SocialDock />
         <main className="w-full">
-          <Hero />
-          <EducationAbout />
-          <Projects />
-          <TechnicalArsenal />
-          <HallOfFame />
-          <CodeActivity />
-          <Certifications />
-          <Contact />
+          <Reveal width="100%"><Hero /></Reveal>
+          <Reveal width="100%"><EducationAbout /></Reveal>
+          <Reveal width="100%"><Projects /></Reveal>
+          <Reveal width="100%"><TechnicalArsenal /></Reveal>
+          <Reveal width="100%"><HallOfFame /></Reveal>
+          <Reveal width="100%"><CodeActivity /></Reveal>
+          <Reveal width="100%"><Certifications /></Reveal>
+          <Reveal width="100%"><Contact /></Reveal>
         </main>
         <Footer />
       </div>

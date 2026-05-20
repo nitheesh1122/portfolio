@@ -1,18 +1,42 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { personalInfo } from '../../data/portfolio';
+import { awards, education, personalInfo, projects, skills } from '../../data/portfolio';
 import { ArrowRight } from 'lucide-react';
 
 const Hero = () => {
     const [showIntro, setShowIntro] = useState(true);
+    const [cursor, setCursor] = useState({ x: 50, y: 40, active: false });
+
+    const heroStats = useMemo(
+        () => [
+            { label: 'Projects shipped', value: projects.length, suffix: '+' },
+            { label: 'Skill stacks', value: skills.length, suffix: '+' },
+            { label: 'Milestones', value: education.length + awards.length, suffix: '+' },
+        ],
+        []
+    );
 
     useEffect(() => {
         const timer = window.setTimeout(() => setShowIntro(false), 2400);
         return () => window.clearTimeout(timer);
     }, []);
 
+    const handlePointerMove = (event: React.PointerEvent<HTMLElement>) => {
+        const rect = event.currentTarget.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        setCursor({ x, y, active: true });
+    };
+
+    const handlePointerLeave = () => setCursor((state) => ({ ...state, active: false }));
+
     return (
-        <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <section
+            id="home"
+            onPointerMove={handlePointerMove}
+            onPointerLeave={handlePointerLeave}
+            className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
+        >
             {showIntro && (
                 <motion.div
                     aria-hidden="true"
@@ -74,6 +98,13 @@ const Hero = () => {
 
             {/* Subtle Gradient Mesh Background */}
             <div className="absolute inset-0 z-0">
+                <div
+                    className="absolute inset-0 transition-opacity duration-500"
+                    style={{
+                        opacity: cursor.active ? 1 : 0.65,
+                        background: `radial-gradient(circle at ${cursor.x}% ${cursor.y}%, color-mix(in srgb, var(--color-brand-accent) 18%, transparent) 0%, transparent 26%), radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.08), transparent 34%), radial-gradient(circle at 80% 30%, rgba(6, 182, 212, 0.08), transparent 30%)`,
+                    }}
+                />
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-accent/10 rounded-full blur-[120px] mix-blend-screen animate-[pulse_8s_ease-in-out_infinite]" />
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-accent-secondary/10 rounded-full blur-[120px] mix-blend-screen animate-[pulse_10s_ease-in-out_infinite_reverse]" />
             </div>
@@ -166,9 +197,72 @@ const Hero = () => {
                             <span>Let's Connect</span>
                         </a>
                     </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.55 }}
+                        className="mt-10 grid w-full gap-4 sm:grid-cols-3 max-w-3xl"
+                    >
+                        {heroStats.map((stat, index) => (
+                            <CountUpStat
+                                key={stat.label}
+                                index={index}
+                                label={stat.label}
+                                value={stat.value}
+                                suffix={stat.suffix}
+                            />
+                        ))}
+                    </motion.div>
                 </div>
             </div>
         </section>
+    );
+};
+
+interface CountUpStatProps {
+    label: string;
+    value: number;
+    suffix?: string;
+    index: number;
+}
+
+const CountUpStat = ({ label, value, suffix = '', index }: CountUpStatProps) => {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        let frame = 0;
+        const duration = 900;
+        const start = performance.now();
+
+        const step = (now: number) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.round(value * eased));
+
+            if (progress < 1) {
+                frame = window.requestAnimationFrame(step);
+            }
+        };
+
+        frame = window.requestAnimationFrame(step);
+        return () => window.cancelAnimationFrame(frame);
+    }, [value]);
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.08 * index }}
+            className="rounded-2xl border border-brand bg-card/90 px-5 py-4 text-center backdrop-blur-md shadow-[0_16px_40px_rgba(0,0,0,0.22)]"
+        >
+            <div className="text-2xl font-black tracking-tight text-brand md:text-3xl">
+                {count}{suffix}
+            </div>
+            <div className="mt-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted">
+                {label}
+            </div>
+        </motion.div>
     );
 };
 

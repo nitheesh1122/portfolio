@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Github, Linkedin, Mail, Sun, Moon } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { personalInfo } from '../../data/portfolio';
 
 const Navbar = () => {
@@ -90,9 +91,13 @@ const Navbar = () => {
                             className="ml-4 relative w-14 h-8 rounded-full flex items-center p-1 transition-all duration-400 focus:outline-none"
                         >
                             <span className={`absolute inset-0 rounded-full transition-colors duration-400 ${theme === 'light' ? 'bg-white/90 border border-brand' : 'bg-card border border-brand'}`}></span>
-                            <span className={`relative z-10 w-6 h-6 rounded-full transform transition-transform duration-400 ${theme === 'light' ? 'translate-x-6 bg-[color:var(--color-brand-accent)] shadow-[0_6px_18px_rgba(250,204,21,0.22)]' : 'translate-x-0 bg-[color:var(--color-brand-card)] shadow-[0_6px_18px_rgba(2,6,23,0.6)]'}`}> 
+                            <motion.span
+                                className={`relative z-10 w-6 h-6 rounded-full transform transition-transform duration-400 ${theme === 'light' ? 'translate-x-6 bg-[color:var(--color-brand-accent)] shadow-[0_6px_18px_rgba(250,204,21,0.22)]' : 'translate-x-0 bg-[color:var(--color-brand-card)] shadow-[0_6px_18px_rgba(2,6,23,0.6)]'}`}
+                                animate={{ rotate: theme === 'light' ? 360 : 0 }}
+                                transition={{ duration: 0.6 }}
+                            > 
                                 {theme === 'light' ? <Sun size={14} className="mx-auto mt-1 text-brand" /> : <Moon size={14} className="mx-auto mt-1 text-brand" />}
-                            </span>
+                            </motion.span>
                         </button>
                     </div>
                 </div>
