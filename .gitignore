@@ -8,6 +8,13 @@ pnpm-debug.log*
 lerna-debug.log*
 build_log*.txt
 
+# OS / editor noise
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
