@@ -1,41 +1,169 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
+import { Terminal } from 'lucide-react';
 import { skills } from '../../data/portfolio';
 
+type TerminalEntry =
+    | {
+          id: number;
+          kind: 'system';
+          lines: string[];
+      }
+    | {
+          id: number;
+          kind: 'command';
+          value: string;
+      }
+    | {
+          id: number;
+          kind: 'result';
+          title: string;
+          skills: string[];
+          description?: string;
+      }
+    | {
+          id: number;
+          kind: 'message';
+          text: string;
+          tone: 'hint' | 'error' | 'success';
+      };
+
+const prompt = 'nitheesh@portfolio:~$';
+
+const getCategory = (title: string) => skills.find((category) => category.title === title);
+
+const commandMap: Record<string, string> = {
+    '/languages': 'Programming Languages',
+    '/frontend': 'Frontend',
+    '/backend': 'Backend',
+    '/databases': 'Databases',
+    '/cloud': 'Cloud & Deployment',
+    '/deployment': 'Cloud & Deployment',
+    '/tools': 'Developer Tools',
+    '/design': 'Design & Analytics',
+    '/analytics': 'Design & Analytics',
+    '/softskills': 'Soft Skills',
+};
+
+const quickCommands = ['/help', '/languages', '/frontend', '/backend', '/databases', '/cloud', '/tools', '/design', '/softskills', '/all'];
+
+const commandDescriptions: Record<string, string> = {
+    '/help': 'Show available commands',
+    '/languages': 'Programming languages',
+    '/frontend': 'Frontend stack',
+    '/backend': 'Backend stack',
+    '/databases': 'Databases',
+    '/cloud': 'Cloud & Deployment',
+    '/deployment': 'Cloud & Deployment',
+    '/tools': 'Developer Tools',
+    '/design': 'Design & Analytics',
+    '/analytics': 'Design & Analytics',
+    '/softskills': 'Soft Skills',
+    '/all': 'Show the full arsenal',
+};
+
 const TechnicalArsenal = () => {
-    const [displayedText, setDisplayedText] = useState('');
-    const [showCommands, setShowCommands] = useState(false);
-    const [expandedCommand, setExpandedCommand] = useState<string | null>(null);
+    const [commandInput, setCommandInput] = useState('');
+    const [entries, setEntries] = useState<TerminalEntry[]>([
+        {
+            id: 1,
+            kind: 'system',
+            lines: [
+                'type /help to see the available commands.',
+                        'try /frontend to inspect the frontend stack.',
+            ],
+        },
+    ]);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const nextEntryId = useRef(2);
 
-    const introText = '> initializing developer profile...\n> loading technical arsenal...\n> access granted\n\n';
-
-    // Typing animation for intro
     useEffect(() => {
-        if (displayedText.length < introText.length) {
-            const timer = setTimeout(() => {
-                setDisplayedText(introText.slice(0, displayedText.length + 1));
-            }, 30);
-            return () => clearTimeout(timer);
-        } else if (displayedText.length === introText.length && !showCommands) {
-            const timer = setTimeout(() => setShowCommands(true), 500);
-            return () => clearTimeout(timer);
-        }
-    }, [displayedText, showCommands, introText]);
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }, [entries]);
 
-    const terminalCommands = [
-        { cmd: 'stack.languages', content: skills[0] },
-        { cmd: 'stack.frontend', content: skills[1] },
-        { cmd: 'stack.backend', content: { title: 'Backend', skills: ['Node.js', 'Express.js', 'REST APIs', 'WebSockets'] } },
-        { cmd: 'stack.database', content: skills[2] },
-        { cmd: 'stack.tools', content: skills[3] },
-        { cmd: 'stack.deployment', content: skills[4] },
-        { cmd: 'learning.now', content: { title: 'Currently Learning', skills: ['System Design', 'Docker', 'Redis', 'AI Engineering'] } },
-    ];
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, []);
+
+    const buildResultEntries = (command: string): TerminalEntry[] => {
+        const normalized = command.trim().toLowerCase();
+
+        if (!normalized) {
+            return [];
+        }
+
+        if (normalized === '/help') {
+            return [
+                {
+                    id: nextEntryId.current++,
+                    kind: 'message',
+                    tone: 'hint',
+                    text: 'Available commands: /languages, /frontend, /backend, /databases, /cloud, /tools, /design, /softskills, /all, /help',
+                },
+            ];
+        }
+
+        if (normalized === '/all') {
+            return [
+                {
+                    id: nextEntryId.current++,
+                    kind: 'result',
+                    title: 'Full Stack Overview',
+                    description: 'Everything I actively use across product builds and shipped projects.',
+                    skills: skills.flatMap((category) => category.skills),
+                },
+            ];
+        }
+
+        const matchedCategory = commandMap[normalized];
+        if (matchedCategory) {
+            const category = getCategory(matchedCategory);
+
+            if (category) {
+                return [
+                    {
+                        id: nextEntryId.current++,
+                        kind: 'result',
+                        title: category.title,
+                        description: commandDescriptions[normalized],
+                        skills: category.skills,
+                    },
+                ];
+            }
+        }
+
+        return [
+            {
+                id: nextEntryId.current++,
+                kind: 'message',
+                tone: 'error',
+                text: `Command not found: ${command}. Type /help for the available commands.`,
+            },
+        ];
+    };
+
+    const handleSubmit = (value: string) => {
+        const trimmed = value.trim();
+
+        if (!trimmed) {
+            return;
+        }
+
+        const commandEntry: TerminalEntry = {
+            id: nextEntryId.current++,
+            kind: 'command',
+            value: trimmed,
+        };
+
+        const resultEntries = buildResultEntries(trimmed);
+
+        setEntries((current) => [...current, commandEntry, ...resultEntries]);
+        setCommandInput('');
+    };
 
     return (
         <section id="skills" className="py-24 relative z-10 w-full overflow-hidden">
-            {/* Ambient glow background */}
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[150px] animate-pulse" />
                 <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-[150px] animate-pulse" />
@@ -52,11 +180,10 @@ const TechnicalArsenal = () => {
                 >
                     <h2 className="text-4xl font-semibold mb-4 text-brand">Technical Arsenal</h2>
                     <p className="text-muted max-w-2xl mx-auto">
-                        Explore my tech stack through a developer terminal. Type commands to discover my expertise.
+                        Explore my tech stack through a live developer terminal.
                     </p>
                 </motion.div>
 
-                {/* Terminal Container */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -64,72 +191,150 @@ const TechnicalArsenal = () => {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="relative"
                 >
-                    {/* Terminal Window */}
                     <div className="bg-gradient-to-b from-slate-900/80 to-black/90 backdrop-blur-xl border border-cyan-500/20 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(34,211,238,0.1)]">
-                        {/* Terminal Header */}
                         <div className="bg-gradient-to-r from-slate-800 to-slate-900 px-6 py-4 border-b border-cyan-500/10 flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <div className="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/50" />
                                 <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-lg shadow-yellow-500/50" />
                                 <div className="w-3 h-3 rounded-full bg-green-500 shadow-lg shadow-green-500/50" />
                             </div>
-                            <span className="text-xs font-mono text-cyan-400/70">nitheesh@portfolio:~$</span>
+                            <span className="text-xs font-mono text-cyan-400/70 flex items-center gap-2">
+                                <Terminal size={14} />
+                                {prompt}
+                            </span>
                         </div>
 
-                        {/* Terminal Content */}
-                        <div className="p-6 md:p-8 font-mono text-sm">
-                            {/* Intro Text with Cursor */}
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                className="text-cyan-400/90 whitespace-pre-wrap mb-6 leading-relaxed"
-                            >
-                                {displayedText}
-                                {displayedText.length < introText.length && (
-                                    <motion.span
-                                        animate={{ opacity: [1, 0] }}
-                                        transition={{ duration: 0.8, repeat: Infinity }}
-                                        className="text-cyan-400 text-lg"
+                        <div className="p-6 md:p-8 font-mono text-sm space-y-5">
+                            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4 text-xs text-cyan-400/70">
+                                {quickCommands.map((command) => (
+                                    <button
+                                        key={command}
+                                        type="button"
+                                        onClick={() => {
+                                            setCommandInput(command);
+                                            inputRef.current?.focus();
+                                        }}
+                                        className="text-left px-3 py-2 rounded-lg border border-cyan-500/10 bg-cyan-500/5 hover:bg-cyan-500/10 hover:border-cyan-400/30 transition-colors"
                                     >
-                                        ▊
-                                    </motion.span>
-                                )}
-                            </motion.div>
+                                        <span className="block text-cyan-300">{command}</span>
+                                        <span className="block mt-1 text-cyan-400/50">{commandDescriptions[command]}</span>
+                                    </button>
+                                ))}
+                            </div>
 
-                            {/* Commands List */}
-                            <AnimatePresence>
-                                {showCommands && (
-                                    <motion.div className="space-y-3">
-                                        {terminalCommands.map((cmd, idx) => (
+                            <div className="space-y-3 max-h-[28rem] overflow-y-auto pr-1">
+                                <AnimatePresence initial={false}>
+                                    {entries.map((entry) => {
+                                        if (entry.kind === 'system') {
+                                            return (
+                                                <motion.div
+                                                    key={entry.id}
+                                                    initial={{ opacity: 0, y: 8 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={{ opacity: 0 }}
+                                                    className="space-y-1 text-cyan-400/85 leading-relaxed"
+                                                >
+                                                    {entry.lines.map((line) => (
+                                                        <div key={line}>{line}</div>
+                                                    ))}
+                                                </motion.div>
+                                            );
+                                        }
+
+                                        if (entry.kind === 'command') {
+                                            return (
+                                                <motion.div
+                                                    key={entry.id}
+                                                    initial={{ opacity: 0, x: -8 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    className="flex flex-wrap items-center gap-2 text-cyan-300"
+                                                >
+                                                    <span className="text-cyan-400">{prompt}</span>
+                                                    <span className="text-white">{entry.value}</span>
+                                                </motion.div>
+                                            );
+                                        }
+
+                                        if (entry.kind === 'message') {
+                                            const toneClass =
+                                                entry.tone === 'error'
+                                                    ? 'text-rose-300'
+                                                    : entry.tone === 'success'
+                                                      ? 'text-emerald-300'
+                                                      : 'text-cyan-300';
+
+                                            return (
+                                                <motion.div
+                                                    key={entry.id}
+                                                    initial={{ opacity: 0, y: 8 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    className={toneClass}
+                                                >
+                                                    {entry.text}
+                                                </motion.div>
+                                            );
+                                        }
+
+                                        return (
                                             <motion.div
-                                                key={cmd.cmd}
-                                                initial={{ opacity: 0, x: -20 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: idx * 0.08 }}
+                                                key={entry.id}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                className="pl-4 border-l border-cyan-500/20 space-y-3"
                                             >
-                                                <CommandBlock
-                                                    cmd={cmd.cmd}
-                                                    content={cmd.content}
-                                                    isExpanded={expandedCommand === cmd.cmd}
-                                                    onToggle={() =>
-                                                        setExpandedCommand(
-                                                            expandedCommand === cmd.cmd ? null : cmd.cmd
-                                                        )
-                                                    }
-                                                />
+                                                <div className="flex flex-wrap items-center gap-3">
+                                                    <div className="text-cyan-300/95 font-semibold text-sm">{entry.title}</div>
+                                                    {entry.description && (
+                                                        <div className="text-cyan-400/55 text-xs">{entry.description}</div>
+                                                    )}
+                                                </div>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {entry.skills.map((skill) => (
+                                                        <span
+                                                            key={skill}
+                                                            className="px-3 py-1 bg-gradient-to-r from-cyan-500/20 to-purple-500/10 border border-cyan-500/30 rounded text-cyan-200/90 text-xs font-mono hover:border-cyan-400/50 hover:bg-cyan-500/15 transition-all shadow-[0_0_10px_rgba(34,211,238,0.1)]"
+                                                        >
+                                                            {skill}
+                                                        </span>
+                                                    ))}
+                                                </div>
                                             </motion.div>
-                                        ))}
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                                        );
+                                    })}
+                                </AnimatePresence>
+                                <div ref={scrollRef} />
+                            </div>
+
+                            <form
+                                onSubmit={(event) => {
+                                    event.preventDefault();
+                                    handleSubmit(commandInput);
+                                }}
+                                className="flex items-center gap-2 rounded-xl border border-cyan-500/20 bg-slate-950/70 px-4 py-3 shadow-inner shadow-cyan-500/5"
+                            >
+                                <span className="text-cyan-400 shrink-0">{prompt}</span>
+                                <input
+                                    ref={inputRef}
+                                    value={commandInput}
+                                    onChange={(event) => setCommandInput(event.target.value)}
+                                    autoComplete="off"
+                                    spellCheck={false}
+                                    placeholder="/frontend"
+                                    className="w-full bg-transparent text-white placeholder:text-cyan-400/35 outline-none"
+                                />
+                                <button
+                                    type="submit"
+                                    className="shrink-0 rounded-lg border border-cyan-500/20 px-3 py-1.5 text-xs text-cyan-200 hover:border-cyan-400/40 hover:bg-cyan-500/10 transition-colors"
+                                >
+                                    run
+                                </button>
+                            </form>
                         </div>
                     </div>
 
-                    {/* Glow Effect */}
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500/0 via-cyan-500/5 to-purple-500/0 pointer-events-none opacity-0 hover:opacity-100 transition-opacity duration-300" />
                 </motion.div>
 
-                {/* Status Indicators */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -156,91 +361,6 @@ const TechnicalArsenal = () => {
                 </motion.div>
             </div>
         </section>
-    );
-};
-
-interface CommandBlockProps {
-    cmd: string;
-    content: { title: string; skills: string[] };
-    isExpanded: boolean;
-    onToggle: () => void;
-}
-
-const CommandBlock = ({ cmd, content, isExpanded, onToggle }: CommandBlockProps) => {
-    const [displayedCmd, setDisplayedCmd] = useState('');
-
-    useEffect(() => {
-        if (displayedCmd.length < cmd.length) {
-            const timer = setTimeout(() => {
-                setDisplayedCmd(cmd.slice(0, displayedCmd.length + 1));
-            }, 30);
-            return () => clearTimeout(timer);
-        }
-    }, [displayedCmd, cmd]);
-
-    return (
-        <motion.div className="space-y-2">
-            {/* Command Line */}
-            <motion.button
-                onClick={onToggle}
-                className="w-full text-left group cursor-pointer relative overflow-hidden"
-                whileHover={{ x: 4 }}
-                transition={{ type: 'spring', stiffness: 300 }}
-            >
-                <div className="flex items-center gap-2 relative z-10">
-                    <span className="text-cyan-400 font-bold">&gt;</span>
-                    <span className="text-cyan-400 font-mono group-hover:text-cyan-300 transition-colors">
-                        {displayedCmd}
-                    </span>
-                    <motion.div
-                        animate={{ rotate: isExpanded ? 90 : 0 }}
-                        transition={{ type: 'spring', stiffness: 300 }}
-                    >
-                        <ChevronRight size={16} className="text-cyan-400/60" />
-                    </motion.div>
-                </div>
-
-                {/* Hover glow effect */}
-                <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-cyan-500/0 rounded opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{
-                        backgroundPosition: '200% center',
-                    }}
-                />
-            </motion.button>
-
-            {/* Expanded Content */}
-            <AnimatePresence>
-                {isExpanded && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
-                    >
-                        <div className="pl-6 pt-2 pb-3 border-l border-cyan-500/20 space-y-2">
-                            <div className="text-cyan-300/90 font-semibold text-xs mb-2">
-                                {content.title}
-                            </div>
-                            <div className="flex flex-wrap gap-2">
-                                {content.skills.map((skill, idx) => (
-                                    <motion.span
-                                        key={skill}
-                                        initial={{ opacity: 0, scale: 0.8 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: idx * 0.05 }}
-                                        className="px-3 py-1 bg-gradient-to-r from-cyan-500/20 to-purple-500/10 border border-cyan-500/30 rounded text-cyan-200/90 text-xs font-mono hover:border-cyan-400/50 hover:bg-cyan-500/15 transition-all shadow-[0_0_10px_rgba(34,211,238,0.1)] hover:shadow-[0_0_20px_rgba(34,211,238,0.2)]"
-                                    >
-                                        {skill}
-                                    </motion.span>
-                                ))}
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </motion.div>
     );
 };
 

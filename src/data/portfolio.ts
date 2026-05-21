@@ -37,7 +37,7 @@ export const education: Education[] = [
 export const projects: Project[] = [
     {
         id: "niral",
-        title: "NIRAL – Smart Agri Logistics System",
+        title: "PERISENSE – Smart Agri Logistics System",
         description: "Agricultural logistics platform with IoT sensor integration for real-time monitoring of temperature, humidity, and gas levels. Features role-based dashboards for vendors, drivers, and customers with data visualization to reduce spoilage.",
         tech: ["MERN Stack", "IoT Sensors", "Data Visualization"],
         github: "https://github.com/nitheesh1122/Niral-Smart-Agri-Tracker",
@@ -259,28 +259,36 @@ export const awards: Award[] = [
 
 export const skills: SkillCategory[] = [
     {
-        title: "Languages",
+        title: "Programming Languages",
         skills: ["C", "Java", "JavaScript", "TypeScript"]
     },
     {
-        title: "Frameworks",
-        skills: ["React", "Node.js", "Express", "Angular", "Next.js"]
+        title: "Frontend",
+        skills: ["React.js", "Next.js", "Angular"]
+    },
+    {
+        title: "Backend",
+        skills: ["Node.js", "Express.js"]
     },
     {
         title: "Databases",
         skills: ["MongoDB", "MySQL"]
     },
     {
-        title: "Cloud & Tools",
-        skills: ["AWS", "Git", "GitHub", "Postman", "Figma", "Power BI"]
+        title: "Cloud & Deployment",
+        skills: ["AWS", "Vercel", "Railway", "Render"]
     },
     {
-        title: "Deployment",
-        skills: ["Vercel", "Railway", "Render"]
+        title: "Developer Tools",
+        skills: ["Git", "GitHub", "Postman"]
+    },
+    {
+        title: "Design & Analytics",
+        skills: ["Figma", "Power BI"]
     },
     {
         title: "Soft Skills",
-        skills: ["Communication & Teamwork", "Adaptability & Quick Learning", "Leadership"]
+        skills: ["Communication", "Teamwork", "Adaptability", "Quick Learning", "Leadership"]
     }
 ];
 
