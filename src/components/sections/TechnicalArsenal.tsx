@@ -83,7 +83,7 @@ const TechnicalArsenal = () => {
     }, [entries]);
 
     useEffect(() => {
-        inputRef.current?.focus();
+        inputRef.current?.focus({ preventScroll: true });
     }, []);
 
     const buildResultEntries = (command: string): TerminalEntry[] => {
