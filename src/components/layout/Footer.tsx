@@ -2,10 +2,12 @@ import { personalInfo } from '../../data/portfolio';
 
 const Footer = () => {
     return (
-        <footer className="border-t border-brand bg-card py-8 text-center text-muted text-sm relative z-10">
-            <div className="max-w-6xl mx-auto px-6">
-                <p>&copy; {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
-                <p className="mt-2 text-muted">Powered by React. Styled with Tailwind. Animated with precision.</p>
+        <footer className="border-t border-brand py-8 text-sm relative z-10">
+            <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+                <p className="font-mono text-muted">
+                    <span className="text-brand-accent">nitheesh@portfolio:~$</span> echo "&copy; {new Date().getFullYear()} {personalInfo.name}"
+                </p>
+                <p className="text-muted">Built with React &amp; Tailwind.</p>
             </div>
         </footer>
     );

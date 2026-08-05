@@ -72,7 +72,7 @@ const ProjectModal = ({ project, onClose, focusSection = 'overview' }: ProjectMo
     const renderDescription = (text: string) => {
         return text.split('\n').map((line, index) => {
             if (line.startsWith('### ')) {
-                return <h3 key={index} className="text-xl font-bold text-brand-accent-secondary mt-4 mb-2">{line.replace('### ', '')}</h3>;
+                return <h3 key={index} className="text-xl font-bold text-brand-accent mt-4 mb-2">{line.replace('### ', '')}</h3>;
             }
             if (line.startsWith('- ')) {
                 return <li key={index} className="ml-4 mb-1 text-muted">{line.replace('- ', '')}</li>;
@@ -97,11 +97,10 @@ const ProjectModal = ({ project, onClose, focusSection = 'overview' }: ProjectMo
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative"
+                className="rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative"
                 style={{
                     backgroundColor: 'var(--color-brand-card)',
                     border: '1px solid var(--color-brand-border)',
-                    boxShadow: 'var(--shadow-soft)'
                 }}
             >
                 {/* Close Button */}
@@ -120,7 +119,7 @@ const ProjectModal = ({ project, onClose, focusSection = 'overview' }: ProjectMo
                                 src={new URL(`../../assets/projects/${project.image}`, import.meta.url).href}
                                 alt={project.title}
                                 className="w-full rounded-xl mb-6"
-                                style={{ border: '1px solid var(--color-brand-border)', background: 'linear-gradient(180deg, rgba(255,255,255,0.02), transparent)' }}
+                                style={{ border: '1px solid var(--color-brand-border)' }}
                                 loading="lazy"
                             />
                         </div>
@@ -140,7 +139,7 @@ const ProjectModal = ({ project, onClose, focusSection = 'overview' }: ProjectMo
 
                         <div className="flex flex-wrap gap-2 text-sm font-medium font-mono">
                             {project.tech.map((tech) => (
-                                <span key={tech} className="chip">
+                                <span key={tech} className="tag-chip">
                                     {tech}
                                 </span>
                             ))}
@@ -205,8 +204,7 @@ const ProjectModal = ({ project, onClose, focusSection = 'overview' }: ProjectMo
                                 href={project.github}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-brand transition-colors"
-                                style={{ background: 'color-mix(in srgb, var(--color-brand-card) 50%, transparent)', border: '1px solid var(--color-brand-border)' }}
+                                className="btn-outline"
                             >
                                 <Github size={20} /> View Source
                             </a>
@@ -216,8 +214,7 @@ const ProjectModal = ({ project, onClose, focusSection = 'overview' }: ProjectMo
                                 href={project.live}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-colors"
-                                style={{ background: 'linear-gradient(90deg, var(--color-brand-accent), var(--color-brand-accent-secondary))', color: 'var(--color-brand-text)' }}
+                                className="btn-solid"
                             >
                                 <ExternalLink size={20} /> Live Demo
                             </a>

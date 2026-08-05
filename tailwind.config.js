@@ -7,9 +7,9 @@ export default {
     darkMode: 'class',
     theme: {
         extend: {
-            fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-            }
+            // Font families are defined via the Tailwind v4 CSS-first `@theme`
+            // block in src/index.css (this JS config's `theme.extend` is not
+            // loaded by @tailwindcss/postcss unless referenced with @config).
         },
     },
     plugins: [],

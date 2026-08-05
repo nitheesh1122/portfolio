@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal } from 'lucide-react';
 import { skills } from '../../data/portfolio';
+import SectionHeader from '../ui/SectionHeader';
 
 type TerminalEntry =
     | {
@@ -70,7 +71,7 @@ const TechnicalArsenal = () => {
             kind: 'system',
             lines: [
                 'type /help to see the available commands.',
-                        'try /frontend to inspect the frontend stack.',
+                'try /frontend to inspect the frontend stack.',
             ],
         },
     ]);
@@ -163,156 +164,143 @@ const TechnicalArsenal = () => {
     };
 
     return (
-        <section id="skills" className="py-24 relative z-10 w-full overflow-hidden">
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[150px] animate-pulse" />
-                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-[150px] animate-pulse" />
-            </div>
-
+        <section id="skills" className="py-28 md:py-36 relative z-10 w-full">
             <div className="max-w-5xl mx-auto px-6 relative z-20">
-                {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6 }}
-                    className="mb-12 text-center"
-                >
-                    <h2 className="text-4xl font-semibold mb-4 text-brand">Technical Arsenal</h2>
-                    <p className="text-muted max-w-2xl mx-auto">
-                        Explore my tech stack through a live developer terminal.
-                    </p>
-                </motion.div>
+                <SectionHeader index="03" title="Arsenal" />
 
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="relative"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-100px' }}
+                    transition={{ duration: 0.5 }}
+                    className="terminal-panel overflow-hidden"
                 >
-                    <div className="bg-gradient-to-b from-slate-900/80 to-black/90 backdrop-blur-xl border border-cyan-500/20 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(34,211,238,0.1)]">
-                        <div className="bg-gradient-to-r from-slate-800 to-slate-900 px-6 py-4 border-b border-cyan-500/10 flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/50" />
-                                <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-lg shadow-yellow-500/50" />
-                                <div className="w-3 h-3 rounded-full bg-green-500 shadow-lg shadow-green-500/50" />
-                            </div>
-                            <span className="text-xs font-mono text-cyan-400/70 flex items-center gap-2">
-                                <Terminal size={14} />
-                                {prompt}
-                            </span>
+                    <div className="px-6 py-4 border-b flex items-center justify-between" style={{ borderColor: 'var(--terminal-border)' }}>
+                        <div className="flex items-center gap-2.5">
+                            <div className="w-3 h-3 rounded-full bg-red-500" />
+                            <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                            <div className="w-3 h-3 rounded-full bg-green-500" />
+                        </div>
+                        <span className="text-xs font-mono opacity-70 flex items-center gap-2">
+                            <Terminal size={14} />
+                            {prompt}
+                        </span>
+                    </div>
+
+                    <div className="p-6 md:p-8 font-mono text-sm space-y-5">
+                        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4 text-xs">
+                            {quickCommands.map((command) => (
+                                <button
+                                    key={command}
+                                    type="button"
+                                    onClick={() => {
+                                        setCommandInput(command);
+                                        inputRef.current?.focus();
+                                    }}
+                                    className="text-left px-3 py-2 rounded-md border transition-colors hover:opacity-100 opacity-80"
+                                    style={{ borderColor: 'var(--terminal-border)' }}
+                                >
+                                    <span className="block text-terminal-accent">{command}</span>
+                                    <span className="block mt-1 opacity-60">{commandDescriptions[command]}</span>
+                                </button>
+                            ))}
                         </div>
 
-                        <div className="p-6 md:p-8 font-mono text-sm space-y-5">
-                            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4 text-xs text-cyan-400/70">
-                                {quickCommands.map((command) => (
-                                    <button
-                                        key={command}
-                                        type="button"
-                                        onClick={() => {
-                                            setCommandInput(command);
-                                            inputRef.current?.focus();
-                                        }}
-                                        className="text-left px-3 py-2 rounded-lg border border-cyan-500/10 bg-cyan-500/5 hover:bg-cyan-500/10 hover:border-cyan-400/30 transition-colors"
-                                    >
-                                        <span className="block text-cyan-300">{command}</span>
-                                        <span className="block mt-1 text-cyan-400/50">{commandDescriptions[command]}</span>
-                                    </button>
-                                ))}
-                            </div>
+                        <div className="space-y-3 max-h-[28rem] overflow-y-auto pr-1">
+                            <AnimatePresence initial={false}>
+                                {entries.map((entry) => {
+                                    if (entry.kind === 'system') {
+                                        return (
+                                            <motion.div
+                                                key={entry.id}
+                                                initial={{ opacity: 0, y: 8 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0 }}
+                                                className="space-y-1 opacity-80 leading-relaxed"
+                                            >
+                                                {entry.lines.map((line) => (
+                                                    <div key={line}>{line}</div>
+                                                ))}
+                                            </motion.div>
+                                        );
+                                    }
 
-                            <div className="space-y-3 max-h-[28rem] overflow-y-auto pr-1">
-                                <AnimatePresence initial={false}>
-                                    {entries.map((entry) => {
-                                        if (entry.kind === 'system') {
-                                            return (
-                                                <motion.div
-                                                    key={entry.id}
-                                                    initial={{ opacity: 0, y: 8 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    exit={{ opacity: 0 }}
-                                                    className="space-y-1 text-cyan-400/85 leading-relaxed"
-                                                >
-                                                    {entry.lines.map((line) => (
-                                                        <div key={line}>{line}</div>
-                                                    ))}
-                                                </motion.div>
-                                            );
-                                        }
+                                    if (entry.kind === 'command') {
+                                        return (
+                                            <motion.div
+                                                key={entry.id}
+                                                initial={{ opacity: 0, x: -8 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                className="flex flex-wrap items-center gap-2"
+                                            >
+                                                <span className="text-terminal-accent">{prompt}</span>
+                                                <span>{entry.value}</span>
+                                            </motion.div>
+                                        );
+                                    }
 
-                                        if (entry.kind === 'command') {
-                                            return (
-                                                <motion.div
-                                                    key={entry.id}
-                                                    initial={{ opacity: 0, x: -8 }}
-                                                    animate={{ opacity: 1, x: 0 }}
-                                                    className="flex flex-wrap items-center gap-2 text-cyan-300"
-                                                >
-                                                    <span className="text-cyan-400">{prompt}</span>
-                                                    <span className="text-white">{entry.value}</span>
-                                                </motion.div>
-                                            );
-                                        }
-
-                                        if (entry.kind === 'message') {
-                                            const toneClass =
-                                                entry.tone === 'error'
-                                                    ? 'text-rose-300'
-                                                    : entry.tone === 'success'
-                                                      ? 'text-emerald-300'
-                                                      : 'text-cyan-300';
-
-                                            return (
-                                                <motion.div
-                                                    key={entry.id}
-                                                    initial={{ opacity: 0, y: 8 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    className={toneClass}
-                                                >
-                                                    {entry.text}
-                                                </motion.div>
-                                            );
-                                        }
+                                    if (entry.kind === 'message') {
+                                        const toneClass =
+                                            entry.tone === 'error'
+                                                ? 'text-rose-400'
+                                                : entry.tone === 'success'
+                                                  ? 'text-terminal-accent'
+                                                  : 'opacity-80';
 
                                         return (
                                             <motion.div
                                                 key={entry.id}
-                                                initial={{ opacity: 0, y: 10 }}
+                                                initial={{ opacity: 0, y: 8 }}
                                                 animate={{ opacity: 1, y: 0 }}
-                                                className="pl-4 border-l border-cyan-500/20 space-y-3"
+                                                className={toneClass}
                                             >
-                                                <div className="flex flex-wrap items-center gap-3">
-                                                    <div className="text-cyan-300/95 font-semibold text-sm">{entry.title}</div>
-                                                    {entry.description && (
-                                                        <div className="text-cyan-400/55 text-xs">{entry.description}</div>
-                                                    )}
-                                                </div>
-                                                <div className="flex flex-wrap gap-2">
-                                                    {entry.skills.map((skill) => (
-                                                        <span
-                                                            key={skill}
-                                                            className="px-3 py-1 bg-gradient-to-r from-cyan-500/20 to-purple-500/10 border border-cyan-500/30 rounded text-cyan-200/90 text-xs font-mono hover:border-cyan-400/50 hover:bg-cyan-500/15 transition-all shadow-[0_0_10px_rgba(34,211,238,0.1)]"
-                                                        >
-                                                            {skill}
-                                                        </span>
-                                                    ))}
-                                                </div>
+                                                {entry.text}
                                             </motion.div>
                                         );
-                                    })}
-                                </AnimatePresence>
-                                <div ref={scrollRef} />
-                            </div>
+                                    }
 
-                            <form
-                                onSubmit={(event) => {
-                                    event.preventDefault();
-                                    handleSubmit(commandInput);
-                                }}
-                                className="flex items-center gap-2 rounded-xl border border-cyan-500/20 bg-slate-950/70 px-4 py-3 shadow-inner shadow-cyan-500/5"
-                            >
-                                <span className="text-cyan-400 shrink-0">{prompt}</span>
+                                    return (
+                                        <motion.div
+                                            key={entry.id}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="pl-4 space-y-3"
+                                            style={{ borderLeft: '1px solid var(--terminal-border)' }}
+                                        >
+                                            <div className="flex flex-wrap items-center gap-3">
+                                                <div className="font-semibold text-sm text-terminal-accent">{entry.title}</div>
+                                                {entry.description && (
+                                                    <div className="text-xs opacity-60">{entry.description}</div>
+                                                )}
+                                            </div>
+                                            <div className="flex flex-wrap gap-2">
+                                                {entry.skills.map((skill) => (
+                                                    <span
+                                                        key={skill}
+                                                        className="px-3 py-1 rounded-md text-xs font-mono"
+                                                        style={{ border: '1px solid var(--terminal-border)' }}
+                                                    >
+                                                        {skill}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </motion.div>
+                                    );
+                                })}
+                            </AnimatePresence>
+                            <div ref={scrollRef} />
+                        </div>
+
+                        <form
+                            onSubmit={(event) => {
+                                event.preventDefault();
+                                handleSubmit(commandInput);
+                            }}
+                            className="flex flex-col sm:flex-row sm:items-center gap-2 rounded-md px-4 py-3"
+                            style={{ border: '1px solid var(--terminal-border)' }}
+                        >
+                            <span className="text-terminal-accent shrink-0">{prompt}</span>
+                            <div className="flex items-center gap-2 min-w-0 flex-1">
                                 <input
                                     ref={inputRef}
                                     value={commandInput}
@@ -320,45 +308,27 @@ const TechnicalArsenal = () => {
                                     autoComplete="off"
                                     spellCheck={false}
                                     placeholder="/frontend"
-                                    className="w-full bg-transparent text-white placeholder:text-cyan-400/35 outline-none"
+                                    aria-label="Terminal command input"
+                                    className="min-w-0 flex-1 bg-transparent outline-none placeholder:opacity-30"
                                 />
                                 <button
                                     type="submit"
-                                    className="shrink-0 rounded-lg border border-cyan-500/20 px-3 py-1.5 text-xs text-cyan-200 hover:border-cyan-400/40 hover:bg-cyan-500/10 transition-colors"
+                                    className="shrink-0 rounded-md px-3 py-1.5 text-xs hover:opacity-100 opacity-80 transition-opacity"
+                                    style={{ border: '1px solid var(--terminal-border)' }}
                                 >
                                     run
                                 </button>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
-
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500/0 via-cyan-500/5 to-purple-500/0 pointer-events-none opacity-0 hover:opacity-100 transition-opacity duration-300" />
                 </motion.div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="mt-8 flex flex-wrap gap-4 justify-center"
-                >
-                    <div className="flex items-center gap-2 text-sm text-cyan-400/80">
-                        <motion.div
-                            animate={{ opacity: [1, 0.5] }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                            className="w-2 h-2 rounded-full bg-green-500 shadow-lg shadow-green-500/50"
-                        />
-                        Available for opportunities
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-purple-400/80">
-                        <motion.div
-                            animate={{ opacity: [0.5, 1] }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                            className="w-2 h-2 rounded-full bg-purple-500 shadow-lg shadow-purple-500/50"
-                        />
+                <div className="mt-6 flex justify-center text-xs">
+                    <div className="flex items-center gap-2 text-muted">
+                        <span className="w-2 h-2 rounded-full bg-brand-accent animate-pulse" />
                         Building AI-driven systems
                     </div>
-                </motion.div>
+                </div>
             </div>
         </section>
     );

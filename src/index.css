@@ -1,37 +1,49 @@
 @import "tailwindcss";
 
-:root {
-  /* Dark theme (default) */
-  --color-brand-bg: #0a0a0a;
-  --color-brand-card: #141414;
-  --color-brand-accent: #10b981;
-  --color-brand-accent-secondary: #06b6d4;
-  --color-brand-accent-glow: rgba(16, 185, 129, 0.4);
-  --color-brand-chip-glow: rgba(16, 185, 129, 0.28);
-  --color-brand-chip-bg: rgba(16, 185, 129, 0.10);
-  --color-brand-pill-bg: rgba(16, 185, 129, 0.14);
-  --color-brand-text: #FFFFFF;
-  --color-brand-muted: #a3a3a3;
-  --color-brand-border: rgba(255, 255, 255, 0.08);
+/*
+ * Tailwind v4 only auto-generates named color utilities (text-brand-accent,
+ * border-brand-accent/40, bg-brand-accent/10, ...) for custom properties
+ * registered inside @theme — plain :root custom properties are NOT picked
+ * up by the utility generator, they're just runtime CSS variables. Every
+ * brand/terminal color that needs a `text-*`/`bg-*`/`border-*` utility
+ * (including opacity-modifier variants) must be declared here. The actual
+ * *values* are still swapped at runtime by the `.light` overrides below —
+ * @theme only registers the key + dark-mode default.
+ */
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 
-  --shadow-soft: 0 6px 24px rgba(2,6,23,0.6);
+  --color-brand-bg: #0a0a0a;
+  --color-brand-card: #131313;
+  --color-brand-accent: #10b981;
+  --color-brand-accent-hover: #34d399;
+  --color-brand-text: #f5f5f4;
+  --color-brand-muted: #9c9c9c;
+  --color-brand-border: rgba(255, 255, 255, 0.12);
+
+  /* Fixed (not theme-reactive): the terminal surface is always dark, so its
+     accent must stay legible against that dark bg even when the site accent
+     (--color-brand-accent) is the darker light-theme teal. */
+  --color-terminal-accent: #34d399;
+}
+
+:root {
+  --terminal-bg: #0a0d0b;
+  --terminal-text: #d1fae5;
+  --terminal-border: rgba(16, 185, 129, 0.28);
 }
 
 .light {
   /* Light theme variables */
-  --color-brand-bg: #f4f7fb;
+  --color-brand-bg: #fafaf9;
   --color-brand-card: #ffffff;
   --color-brand-accent: #0f766e;
-  --color-brand-accent-secondary: #0284c7;
-  --color-brand-accent-glow: rgba(255, 255, 255, 0.55);
-  --color-brand-chip-glow: rgba(255, 255, 255, 0.72);
-  --color-brand-chip-bg: rgba(255, 255, 255, 0.88);
-  --color-brand-pill-bg: rgba(255, 255, 255, 0.96);
-  --color-brand-text: #0b1220;
-  --color-brand-muted: #475569;
-  --color-brand-border: rgba(15,23,42,0.12);
-
-  --shadow-soft: 0 10px 30px rgba(15,23,42,0.10);
+  --color-brand-accent-hover: #0b5c53;
+  --color-brand-text: #0b0f0e;
+  --color-brand-muted: #57534e;
+  --color-brand-border: rgba(15, 23, 42, 0.14);
 }
 
 /* Smooth global transitions for theme properties */
@@ -40,18 +52,44 @@
   transition: background-color 350ms cubic-bezier(.2,.9,.3,1), color 300ms linear;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 @layer base {
   body {
-    @apply antialiased;
+    @apply antialiased font-sans;
     background-color: var(--color-brand-bg);
     color: var(--color-brand-text);
     overflow-x: hidden;
     transition: background-color 400ms cubic-bezier(.2,.9,.3,1), color 300ms linear;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--color-brand-accent);
+    outline-offset: 2px;
   }
 
   ::selection {
@@ -63,122 +101,117 @@
   ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--color-brand-card), var(--color-brand-card));
+    background: var(--color-brand-card);
     border-radius: 10px;
     border: 2px solid transparent;
     background-clip: padding-box;
-    box-shadow: 0 0 0 6px transparent;
-    transition: background-color 200ms ease, box-shadow 200ms ease;
+    transition: background-color 200ms ease;
   }
-  ::-webkit-scrollbar-thumb:hover { box-shadow: 0 0 12px var(--color-brand-accent-glow); }
+  ::-webkit-scrollbar-thumb:hover { background-color: var(--color-brand-accent); }
 }
 
 @layer utilities {
-  .glass-panel {
-    background: color-mix(in srgb, var(--color-brand-bg) 88%, var(--color-brand-card) 12%);
-    backdrop-blur: 8px;
-    border: 1px solid var(--color-brand-border);
-    box-shadow: var(--shadow-soft);
-  }
+  /*
+   * Tailwind v4 only generates a color utility for the EXACT theme-key name
+   * used (e.g. --color-brand-text -> text-brand-text). "brand" is reused as
+   * a prefix for three different CSS properties across this codebase
+   * (bg-brand = page bg, text-brand = primary text, border-brand = hairline
+   * border) which are three different colors, so none of them can be
+   * generated automatically under the short "brand" name. These three are
+   * used in dozens of places, so they get one central hand-authored alias
+   * here rather than being renamed at every call site. bg-brand/bg-card DO
+   * have a correctly-generated Tailwind equivalent (bg-brand-bg /
+   * bg-brand-card, including opacity-modifier support) and are used in only
+   * a handful of places, so those call sites were renamed instead — see
+   * Navbar.tsx and Projects.tsx.
+   */
+  .text-brand { color: var(--color-brand-text); }
+  .text-muted { color: var(--color-brand-muted); }
+  .border-brand { border-color: var(--color-brand-border); }
 
-  .glow-text { text-shadow: 0 0 8px var(--color-brand-accent-glow); }
-}
-
-/* Theme-aware utility aliases */
-@layer utilities {
-  /* Overlay that respects theme background with semi-transparency */
   .overlay { background: color-mix(in srgb, var(--color-brand-bg) 80%, transparent); }
-
-  .surface-soft {
-    background: color-mix(in srgb, var(--color-brand-bg) 86%, var(--color-brand-card) 14%);
-    border: 1px solid var(--color-brand-border);
-    transition: background-color 200ms ease, border-color 200ms ease;
-  }
-
-  .surface-soft:hover {
-    background: color-mix(in srgb, var(--color-brand-bg) 78%, var(--color-brand-card) 22%);
-  }
-
-  .theme-pill {
-    background: var(--color-brand-pill-bg);
-    border: 1px solid color-mix(in srgb, var(--color-brand-accent) 24%, var(--color-brand-border));
-    color: var(--color-brand-text);
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-brand-accent) 14%, transparent), 0 0 18px var(--color-brand-chip-glow), 0 0 30px color-mix(in srgb, var(--color-brand-accent) 18%, transparent);
-    transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, color 200ms ease;
-  }
-
-  .theme-chip {
-    background: var(--color-brand-chip-bg);
-    border: 1px solid color-mix(in srgb, var(--color-brand-accent) 18%, var(--color-brand-border));
-    color: var(--color-brand-text);
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-brand-accent) 10%, transparent), 0 0 14px color-mix(in srgb, var(--color-brand-chip-glow) 70%, transparent);
-    transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, color 200ms ease;
-  }
-
-  .theme-chip:hover,
-  .theme-pill:hover {
-    border-color: color-mix(in srgb, var(--color-brand-accent) 34%, var(--color-brand-border));
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-brand-accent) 18%, transparent), 0 0 20px var(--color-brand-chip-glow);
-  }
 
   .loading-shimmer {
     background: linear-gradient(90deg, color-mix(in srgb, var(--color-brand-text) 5%, transparent), color-mix(in srgb, var(--color-brand-text) 10%, transparent), color-mix(in srgb, var(--color-brand-text) 5%, transparent));
   }
 
-  .text-brand { color: var(--color-brand-text) !important; }
-  .text-muted { color: var(--color-brand-muted) !important; }
-  .bg-brand { background-color: var(--color-brand-bg) !important; }
-  .bg-card { background-color: var(--color-brand-card) !important; }
-  .border-brand { border-color: var(--color-brand-border) !important; }
-  .accent-gradient {
-    background: linear-gradient(90deg, var(--color-brand-accent), var(--color-brand-accent-secondary));
-    color: var(--color-brand-text);
+  /* Surface 1: editorial panel — rule/border only, no fill, no shadow */
+  .editorial-panel {
+    background: transparent;
+    border: 1px solid var(--color-brand-border);
+    border-radius: 0.75rem;
   }
-  .hero-primary-cta {
-    background: linear-gradient(90deg, var(--color-brand-accent), var(--color-brand-accent-secondary));
+
+  /* Surface 2: bento card — solid content tile */
+  .bento-card {
+    background-color: var(--color-brand-card);
+    border: 1px solid var(--color-brand-border);
+    border-radius: 0.875rem;
+    transition: border-color 200ms ease, transform 200ms ease;
+  }
+
+  .bento-card:hover {
+    border-color: color-mix(in srgb, var(--color-brand-accent) 45%, var(--color-brand-border));
+    transform: translateY(-2px);
+  }
+
+  /* Surface 3: terminal panel — always dark, independent of site theme */
+  .terminal-panel {
+    background-color: var(--terminal-bg);
+    color: var(--terminal-text);
+    border: 1px solid var(--terminal-border);
+    border-radius: 0.875rem;
+  }
+
+  .terminal-cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 1.1em;
+    background: var(--color-terminal-accent);
+    animation: blink-cursor 1s steps(1) infinite;
+    vertical-align: text-bottom;
+  }
+
+  /* Buttons */
+  .btn-solid {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md font-semibold text-sm;
+    background-color: var(--color-brand-accent);
     color: #ffffff;
-    box-shadow: 0 10px 28px color-mix(in srgb, var(--color-brand-accent) 32%, transparent);
-    border: 1px solid color-mix(in srgb, var(--color-brand-accent) 28%, transparent);
-    transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, color 200ms ease, transform 200ms ease;
+    border: 1px solid var(--color-brand-accent);
+    transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
   }
 
-  .light .hero-primary-cta {
-    background: #ffffff;
-    color: var(--color-brand-accent);
-    border: 1px solid color-mix(in srgb, var(--color-brand-accent) 18%, var(--color-brand-border));
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  .btn-solid:hover {
+    background-color: var(--color-brand-accent-hover);
+    border-color: var(--color-brand-accent-hover);
   }
 
-  .light .hero-primary-cta:hover {
-    color: #ffffff;
-    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
-  }
-
-  .hero-primary-cta:hover {
-    border-color: color-mix(in srgb, var(--color-brand-accent) 38%, transparent);
-  }
-
-  .hero-primary-cta > .absolute {
-    opacity: 0;
-  }
-
-  .hero-primary-cta:hover > .absolute {
-    opacity: 1;
-  }
-  .btn-accent {
-    @apply px-5 py-2 rounded-full font-bold text-sm;
-    background: linear-gradient(90deg, var(--color-brand-accent), var(--color-brand-accent-secondary));
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md font-semibold text-sm;
+    background-color: transparent;
     color: var(--color-brand-text);
-    box-shadow: 0 6px 24px var(--color-brand-accent-glow);
-    transition: transform 200ms ease, box-shadow 200ms ease;
+    border: 1px solid var(--color-brand-border);
+    transition: border-color 180ms ease, background-color 180ms ease;
   }
-  .chip {
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    background: color-mix(in srgb, var(--color-brand-bg) 82%, var(--color-brand-card) 18%);
+
+  .btn-outline:hover {
+    border-color: var(--color-brand-accent);
+  }
+
+  /* Small tag / tech pill used across Projects, Recognition, modals */
+  .tag-chip {
+    @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium font-mono;
+    background: transparent;
     border: 1px solid var(--color-brand-border);
     color: var(--color-brand-muted);
-    font-weight: 600;
-    font-size: 0.75rem;
+  }
+
+  /* Low-opacity dot grid used behind Hero and Projects only */
+  .dot-grid-bg {
+    background-image: radial-gradient(color-mix(in srgb, var(--color-brand-text) 22%, transparent) 1px, transparent 1px);
+    background-size: 28px 28px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
+    opacity: 0.5;
   }
 }
