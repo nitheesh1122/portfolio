@@ -98,16 +98,16 @@ const Hero = () => {
             {/* Subtle dot-grid backdrop */}
             <div className="absolute inset-0 z-0 dot-grid-bg" aria-hidden="true" />
 
-            <div className="max-w-5xl mx-auto px-6 relative z-10 w-full">
+            <div className="max-w-6xl mx-auto px-6 relative z-10 w-full">
                 <div className="flex flex-col items-center text-center">
 
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.5 }}
-                        className="mb-8"
+                        className="mb-6"
                     >
-                        <div className="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border border-brand-accent/40">
+                        <div className="w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden border border-brand-accent/40">
                             <img
                                 src="/profile.png"
                                 alt={personalInfo.name}
@@ -124,7 +124,7 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.1 }}
-                        className="mb-6 flex items-center gap-2 text-sm text-muted"
+                        className="mb-5 flex items-center gap-2 text-sm text-muted"
                     >
                         <span className="w-2 h-2 rounded-full bg-brand-accent animate-pulse" />
                         Available for new opportunities
@@ -134,7 +134,7 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.15 }}
-                        className="text-6xl md:text-8xl font-display font-semibold tracking-tight mb-4 text-brand"
+                        className="text-6xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-display font-semibold tracking-tight mb-3 text-brand"
                     >
                         {personalInfo.fullName}
                     </motion.h1>
@@ -143,7 +143,7 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.22 }}
-                        className="text-2xl md:text-4xl font-display font-medium mb-8 text-brand-accent"
+                        className="text-2xl md:text-4xl font-display font-medium mb-6 text-brand-accent"
                     >
                         {personalInfo.role}
                     </motion.h2>
@@ -152,7 +152,7 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.28 }}
-                        className="text-lg md:text-xl text-muted max-w-2xl mx-auto mb-12 leading-relaxed"
+                        className="text-lg md:text-xl text-muted max-w-2xl mx-auto mb-10 leading-relaxed"
                     >
                         {personalInfo.tagline}
                     </motion.p>
@@ -161,7 +161,7 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.34 }}
-                        className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-14"
+                        className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-12"
                     >
                         <a href="#projects" className="btn-solid group">
                             See What I Build

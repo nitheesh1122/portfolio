@@ -2,7 +2,7 @@ import { type FormEvent, useMemo, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
 import { personalInfo } from '../../data/portfolio';
-import { ArrowUpRight, Mail, MapPin } from 'lucide-react';
+import { ArrowUpRight, MapPin } from 'lucide-react';
 import SectionHeader from '../ui/SectionHeader';
 
 const Contact = () => {
@@ -101,31 +101,35 @@ const Contact = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: '-100px' }}
                     transition={{ duration: 0.6 }}
-                    className="mb-14"
+                    className="mb-16 md:mb-20"
                 >
-                    <h3 className="text-4xl md:text-6xl font-display font-semibold text-brand tracking-tight mb-6">
+                    <h3 className="text-5xl md:text-7xl font-display font-semibold text-brand tracking-tight mb-6 max-w-3xl">
                         Let's build something.
                     </h3>
-                    <p className="text-lg text-muted max-w-2xl leading-relaxed mb-6">
+                    <p className="text-lg text-muted max-w-xl leading-relaxed mb-8">
                         I'm currently available for full-time opportunities and freelance projects. Whether you have a question or just want to say hi, I'll try my best to get back to you.
                     </p>
-                    <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+                    <div className="flex flex-wrap items-center gap-x-10 gap-y-3">
                         {links.map((link) => (
                             <a
                                 key={link.label}
                                 href={link.href}
                                 target={link.external ? '_blank' : undefined}
                                 rel={link.external ? 'noreferrer' : undefined}
-                                className="inline-flex items-center gap-1 font-mono text-sm text-brand hover:text-brand-accent transition-colors"
+                                className="inline-flex items-center gap-1.5 font-mono text-base text-brand hover:text-brand-accent transition-colors"
                             >
                                 {link.label}
-                                <ArrowUpRight size={14} />
+                                <ArrowUpRight size={16} />
                             </a>
                         ))}
                     </div>
+                    <div className="mt-5 flex items-center gap-2 text-sm text-muted">
+                        <MapPin size={15} />
+                        {personalInfo.location}
+                    </div>
                 </motion.div>
 
-                <div className="grid lg:grid-cols-2 gap-6 items-start">
+                <div className="max-w-2xl">
                     <motion.form
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -202,27 +206,6 @@ const Contact = () => {
                             </button>
                         </div>
                     </motion.form>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: '-50px' }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="editorial-panel p-6 md:p-8 flex flex-col gap-4"
-                    >
-                        <h4 className="text-lg font-semibold text-brand mb-2">Direct Contact</h4>
-                        <a
-                            href={`mailto:${personalInfo.email}`}
-                            className="flex items-center gap-3 text-brand hover:text-brand-accent transition-colors"
-                        >
-                            <Mail size={18} />
-                            {personalInfo.email}
-                        </a>
-                        <div className="flex items-center gap-3 text-muted">
-                            <MapPin size={18} />
-                            {personalInfo.location}
-                        </div>
-                    </motion.div>
                 </div>
             </div>
         </section>

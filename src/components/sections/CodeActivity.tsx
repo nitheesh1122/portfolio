@@ -133,10 +133,12 @@ const CodeActivity = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.5 }}
-                        className="bento-card p-5 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center"
+                        className="bento-card p-5 sm:p-6 md:p-8 flex flex-col"
                     >
-                            <h3 className="text-lg sm:text-xl font-display font-semibold text-brand mb-5 sm:mb-6">LeetCode Profile</h3>
-                            <div className="w-full flex justify-center bento-card p-3 sm:p-4 overflow-hidden">
+                        <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Problem Solving</span>
+                        <h3 className="mt-1 text-lg sm:text-xl font-display font-semibold text-brand">LeetCode Profile</h3>
+
+                        <div className="w-full flex justify-center mt-6 overflow-hidden">
                             <StatImage
                                 key={leetCodeTheme}
                                 src={`https://leetcard.jacoblin.cool/${personalInfo.leetcodeUsername}?theme=${leetCodeTheme}&font=Inter&ext=activity`}
@@ -149,7 +151,7 @@ const CodeActivity = () => {
                             href={personalInfo.socials.leetcode}
                             target="_blank"
                             rel="noreferrer"
-                            className="mt-6 text-sm font-medium text-brand-accent hover:text-brand transition-colors"
+                            className="mt-6 pt-5 border-t border-brand text-sm font-medium text-brand-accent hover:text-brand transition-colors self-start"
                         >
                             View Full Profile &rarr;
                         </a>
@@ -161,18 +163,19 @@ const CodeActivity = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="bento-card p-5 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center w-full"
+                        className="bento-card p-5 sm:p-6 md:p-8 flex flex-col w-full"
                     >
-                        <h3 className="text-lg sm:text-xl font-display font-semibold text-brand mb-5 sm:mb-6 flex items-center justify-center gap-2">
-                            <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 sm:w-6 sm:h-6 text-brand">
+                        <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Contributions</span>
+                        <h3 className="mt-1 text-lg sm:text-xl font-display font-semibold text-brand flex items-center gap-2">
+                            <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-brand">
                                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.525-3.795-.45-3.93-1.02-.075-.195-.405-1.02-.69-1.29-.24-.225-.585-.525-.015-.54.54-.015.93.51 1.065.72 1.62 1.05 2.76.75 3.435.57.06-.72.39-1.23.75-1.515-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.405.345.75 1.035.75 2.085 0 1.5-.015 2.715-.015 3.09 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
                             </svg>
                             GitHub Stats
                         </h3>
 
-                        <div className="w-full flex flex-col gap-6 items-center">
+                        <div className="w-full flex flex-col gap-5 mt-6">
                             {/* Full Width Contribution Calendar */}
-                            <div className="w-full bento-card p-3 sm:p-4 flex items-center justify-start md:justify-center overflow-x-auto overflow-y-hidden">
+                            <div className="w-full flex items-center justify-start md:justify-center overflow-x-auto overflow-y-hidden">
                                 <GitHubCalendar
                                     username={personalInfo.githubUsername}
                                     colorScheme={isLightTheme ? 'light' : 'dark'}
@@ -185,10 +188,11 @@ const CodeActivity = () => {
                                 />
                             </div>
 
-                            {/* Stat Cards Row */}
-                            <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {/* Streak Card */}
-                                <div className="bento-card flex justify-center overflow-hidden">
+                            {/* Stat Row */}
+                            <div className="w-full grid grid-cols-1 sm:grid-cols-2 divide-y divide-brand sm:divide-y-0 sm:divide-x border-t border-brand pt-5">
+                                {/* Streak */}
+                                <div className="flex flex-col items-center pb-5 sm:pb-0 sm:pr-5">
+                                    <span className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted self-start">Streak</span>
                                     <StatImage
                                         key={isLightTheme ? 'light' : 'dark'}
                                         src={`https://streak-stats.demolab.com/?user=${personalInfo.githubUsername}&theme=${githubStatsTheme.theme}&hide_border=true&title_color=${githubStatsTheme.titleColor}&text_color=${githubStatsTheme.textColor}&icon_color=${githubStatsTheme.iconColor}&bg_color=${githubStatsTheme.backgroundColor}`}
@@ -198,8 +202,9 @@ const CodeActivity = () => {
                                     />
                                 </div>
 
-                                {/* Top Languages Card */}
-                                <div className="bento-card flex justify-center overflow-hidden">
+                                {/* Top Languages */}
+                                <div className="flex flex-col items-center pt-5 sm:pt-0 sm:pl-5">
+                                    <span className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted self-start">Top Languages</span>
                                     <StatImage
                                         key={isLightTheme ? 'light' : 'dark'}
                                         src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${personalInfo.githubUsername}&layout=compact&theme=${githubStatsTheme.theme}&hide_border=true&title_color=${githubStatsTheme.titleColor}&text_color=${githubStatsTheme.textColor}&bg_color=${githubStatsTheme.backgroundColor}`}
@@ -215,7 +220,7 @@ const CodeActivity = () => {
                             href={personalInfo.socials.github}
                             target="_blank"
                             rel="noreferrer"
-                            className="mt-8 text-sm font-medium text-brand-accent hover:text-brand transition-colors"
+                            className="mt-6 pt-5 border-t border-brand text-sm font-medium text-brand-accent hover:text-brand transition-colors self-start"
                         >
                             View GitHub &rarr;
                         </a>

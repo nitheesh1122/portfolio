@@ -33,10 +33,10 @@ const Projects = () => {
             <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <SectionHeader index="02" title="Work" subtitle="Shipped, full-stack case studies" />
 
-                <div className="mb-8 flex items-center gap-2 flex-wrap">
+                <div className="mb-8 flex items-center gap-1 flex-wrap">
                     <button
                         onClick={() => setSelectedTag(null)}
-                        className={`font-mono text-xs px-3 py-1.5 rounded-md border transition-colors ${!selectedTag ? 'bg-brand-accent text-white border-brand-accent' : 'border-brand text-muted hover:text-brand hover:border-brand-accent/50'}`}
+                        className={`font-mono text-xs px-2.5 py-1.5 rounded-md border border-transparent transition-colors ${!selectedTag ? 'bg-brand-accent text-white' : 'text-muted hover:text-brand hover:border-brand'}`}
                     >
                         all
                     </button>
@@ -44,7 +44,7 @@ const Projects = () => {
                         <button
                             key={tag}
                             onClick={() => setSelectedTag((t) => (t === tag ? null : tag))}
-                            className={`font-mono text-xs px-3 py-1.5 rounded-md border transition-colors ${selectedTag === tag ? 'bg-brand-accent text-white border-brand-accent' : 'border-brand text-muted hover:text-brand hover:border-brand-accent/50'}`}
+                            className={`font-mono text-xs px-2.5 py-1.5 rounded-md border border-transparent transition-colors ${selectedTag === tag ? 'bg-brand-accent text-white' : 'text-muted hover:text-brand hover:border-brand'}`}
                         >
                             {tag.toLowerCase()}
                         </button>
