@@ -3,8 +3,9 @@ import type { Project, Education, Award, Certification, SkillCategory } from '..
 export const personalInfo = {
     name: "Nitheesh.dev",
     fullName: "Nitheesh Selvaraj",
-    role: "Full Stack Developer",
-    tagline: "Engineering scalable solutions at the intersection of web technology and real-world impact. Transforming complex problems into elegant, user-centric applications.",
+    role: "Software Engineer",
+    specialization: "Full Stack · Backend · Cloud · IoT",
+    tagline: "I build reliable software that turns real-world problems into practical, scalable products.",
     location: "Erode, Tamil Nadu, India",
     email: "nitheeshselvaraj01@gmail.com",
     phone: "+91 6381763494",

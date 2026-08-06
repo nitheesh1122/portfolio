@@ -143,10 +143,19 @@ const Hero = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.22 }}
-                        className="text-2xl md:text-4xl font-display font-medium mb-6 text-brand-accent"
+                        className="text-2xl md:text-4xl font-display font-medium mb-3 text-brand-accent"
                     >
                         {personalInfo.role}
                     </motion.h2>
+
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.25 }}
+                        className="font-mono text-xs sm:text-sm uppercase tracking-[0.2em] text-muted mb-6"
+                    >
+                        {personalInfo.specialization}
+                    </motion.p>
 
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}

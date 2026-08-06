@@ -25,7 +25,7 @@ function App() {
 
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        document.title = "Nitheesh S | Full Stack Developer";
+        document.title = "Nitheesh S | Software Engineer";
       } else {
         document.title = originalTitle;
       }
